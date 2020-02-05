@@ -4,6 +4,7 @@ import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import Home from './src/route';
 
+
 export default class MyComponent extends Component {
 
   state = {
@@ -26,7 +27,7 @@ export default class MyComponent extends Component {
          );
        }
         return (
-                 <Home />
+          <Home />
                 )
    }
 }
