@@ -104,7 +104,8 @@ export default class Home extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#414c68"
+    backgroundColor: "#414c68",
+    height:1500,
   },
   logo: {
     marginTop: 20,

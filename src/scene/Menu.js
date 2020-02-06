@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import styles from '../styles/SideMenu.style';
 import {NavigationActions} from 'react-navigation';
 import {ScrollView, View,Image} from 'react-native';
-import { Container, Header, Left, Body, Right, Button,Icon, Content,Badge,Text,Footer, FooterTab } from 'native-base';
+import { Container, Header, Left, Body, Thumbnail, Button,Icon, Content,Badge,Text,CardItem, Card } from 'native-base';
 
 class SideMenu extends Component {
   navigateToScreen = (route) => () => {
@@ -14,22 +14,36 @@ class SideMenu extends Component {
   }
 
   render () {
+    var  {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
         <ScrollView>
           <View>
-            <Image 
+          <Image 
               style={styles.image}
               source={require('../resource/Images/Icon-menu.png')} 
             />
+          <Card style={{flex: 0}}>
+            <CardItem>
+              <Left>
+                <Thumbnail source={require('../resource/Images/Icon-user.png')} />
+                <Body>
+                  <Text>Thitiwut Boonyoung</Text>
+                </Body>
+              </Left>
+            </CardItem>
+            </Card>
             <View style={styles.navSectionStyle}>
+              <Button transparent>
               <Text style={styles.navItemStyle} >
               <Icon 
                 name="plus-circle" 
                 type="FontAwesome"
                 style={{fontSize:35,marginLeft: '13%',color:'#fff'}}
-              />  First-Aid
+              />   First-Aid
               </Text>
+              </Button>
+              <Button transparent>
               <Text style={styles.navItemStyle} >
               <Icon 
                 name="heartbeat" 
@@ -37,6 +51,8 @@ class SideMenu extends Component {
                 style={{fontSize:35,marginLeft: '13%',color:'#fff'}}
               />  CPR
               </Text>
+              </Button>
+              <Button transparent>
               <Text style={styles.navItemStyle} >
               <Icon 
                 name="heart-broken" 
@@ -44,20 +60,38 @@ class SideMenu extends Component {
                 style={{fontSize:35,marginLeft: '13%',color:'#fff'}}
               />  AED
               </Text>
+              </Button>
+              <Button transparent>
               <Text style={styles.navItemStyle} >
               <Icon 
                 name="md-chatboxes" 
                 type="Ionicons"
                 style={{fontSize:35,marginLeft: '13%',color:'#fff'}}
-              />  Chat
+              />   Chat
               </Text>
-              <Text style={styles.navItemStyle} >
+              </Button>
+              <Button transparent
+                  onPress={() => navigate("History")}
+              >
+              <Text style={styles.navItemStyle}>
               <Icon 
                 name="history" 
                 type="FontAwesome"
                 style={{fontSize:35,marginLeft: '13%',color:'#fff'}}
-              />  History
+              />   History
               </Text>
+              </Button>
+              <Button transparent
+                  onPress={() => navigate("Login")}
+              >
+              <Text style={styles.navItemStyle}>
+              <Icon 
+                name="log-out" 
+                type="Entypo"
+                style={{fontSize:33,marginLeft: '13%',color:'#fff'}}
+              />  Log-out
+              </Text>
+              </Button>
             </View>
           </View>
         </ScrollView>

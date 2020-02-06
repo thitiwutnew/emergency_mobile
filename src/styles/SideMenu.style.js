@@ -6,13 +6,18 @@ export default {
       
     },
     navItemStyle: {
-      padding:10,
-      paddingLeft: 25,
+      paddingLeft: 20,
       color: '#FFF',
-      fontSize:22,
+      fontSize:20,
+    },
+    navusername:{
+      paddingLeft: 20,
+      color: '#FFF',
+      fontSize: 15 ,
     },
     navSectionStyle: {
-      backgroundColor: '#49506a'
+      backgroundColor: '#49506a',
+      marginTop: 15,
     },
     sectionHeadingStyle: {
       paddingVertical: 10,
