@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { View, } from "react-native";
+import { View, AppRegistry } from "react-native";
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import reducer from './src/reducers'
 import Home from './src/route';
-
 
 export default class MyComponent extends Component {
 
@@ -21,13 +24,20 @@ export default class MyComponent extends Component {
   }
 
   render() {
-       if (this.state.loading) {
-         return (
-           <View></View>
-         );
-       }
-        return (
-          <Home />
-                )
-   }
+    const store = createStore(reducer, applyMiddleware(thunk))
+
+    console.disableYellowBox = true;
+    if (this.state.loading) {
+      return (
+        <View></View>
+      );
+    }
+    return (
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    )
+  }
 }
+
+AppRegistry.registerComponent('emergency_mobile', () => MyComponent)

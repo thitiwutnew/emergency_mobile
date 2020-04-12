@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
-import { StyleSheet,Image, ImageBackground } from 'react-native';
+import { StyleSheet,Image, ImageBackground,Alert } from 'react-native';
 import { Container, Footer, Left, Body, Right, Button,Icon, View,Form,Text,Input, Item } from 'native-base';
-import Icons from 'react-native-vector-icons/FontAwesome';
-import MenuDrawer from 'react-native-side-drawer'
+import FacebookLogin from '../components/FacebookLogin'
+import { connect } from 'react-redux';
 
-export default class Home extends Component {
+class Login extends Component {
+
   render() {
     var  {navigate} = this.props.navigation;
+    let chk = this.props.status;
+    if(chk =="1"){ this.props.navigation.navigate("Home")}
     return (
       <Container>
             <ImageBackground 
             style={{height:'100%'}}
                 source={require('../resource/Images/bg-login.png')}
             >
+              
                 <Image  
                     style={styles.imagelogo}
                     source={require('../resource/Images/Logo-login.png')} 
@@ -32,13 +36,7 @@ export default class Home extends Component {
                     </Button>
                     <View style={styles.view}>
                         <Text style={{fontSize:13,color:'#fff'}}>Don't Have Account ?</Text>
-                        <Button transparent >
-                        <Icon 
-                            name="facebook-square"
-                            type="FontAwesome"
-                            style={{color:'#4267b2',fontSize:30}}
-                        />
-                        </Button>
+                        <FacebookLogin/>
                     </View>
                 </Form>
             </ImageBackground>
@@ -46,6 +44,13 @@ export default class Home extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) =>({
+  status : state.checklogin.chklogin
+})
+
+export default connect(mapStateToProps)(Login);
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -60,7 +65,7 @@ const styles = StyleSheet.create({
   },
   contentbtnforget: {
     margin:5,
-    marginBottom:'50%',
+    marginBottom:'40%',
     alignSelf:'center',
     color: '#fff',
     fontWeight: 'bold',

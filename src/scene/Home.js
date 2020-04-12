@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Image, View, Text, Platform } from "react-native";
+import { StyleSheet, Image, View, Dimensions , Platform } from "react-native";
 import {
   Container,
   Header,
@@ -15,16 +15,19 @@ import {
   FooterTab
 } from "native-base";
 import { Header as Headers } from "../components/Header";
-import Icons from "react-native-vector-icons/FontAwesome";
-import MenuDrawer from "react-native-side-drawer";
+import Map from '../components/Map'
 
 export default class Home extends Component {
+
   render() {
-    var { navigate } = this.props.navigation;
     return (
       <Container>
         <Headers open={() => this.props.navigation.openDrawer()} />
-        <Content style={styles.container}></Content>
+        <Content style={styles.container}> 
+          <View style={styles.container}>
+            <Map />
+          </View>
+          </Content>
         <Footer>
           <View
             style={{
@@ -75,7 +78,7 @@ export default class Home extends Component {
                 paddingVertical: 10
               }}
             >
-              <Button transparent>
+              <Button transparent >
                 <Icon
                   name="camera"
                   color="#fff"
@@ -119,5 +122,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#f03b42",
     color: "#fff",
     marginTop: Platform.OS === "ios" ? -11 : -20
-  }
+  },
+  mapStyle: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
 });

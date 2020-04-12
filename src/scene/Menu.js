@@ -4,6 +4,9 @@ import styles from '../styles/SideMenu.style';
 import {NavigationActions} from 'react-navigation';
 import {ScrollView, View,Image} from 'react-native';
 import { Container, Header, Left, Body, Thumbnail, Button,Icon, Content,Badge,Text,CardItem, Card } from 'native-base';
+import { connect } from 'react-redux'
+import { setUsername } from '../actions/facebooklogin'
+import { checkloginfacebook } from '../actions/checklogin'
 
 class SideMenu extends Component {
   navigateToScreen = (route) => () => {
@@ -12,7 +15,11 @@ class SideMenu extends Component {
     });
     this.props.navigation.dispatch(navigateAction);
   }
-
+  clicklogout = () => {
+    this.props.handleChklogin(0)
+    this.props.handleSetName(null)
+    this.props.navigation.navigate("Login")
+  }
   render () {
     var  {navigate} = this.props.navigation;
     return (
@@ -28,7 +35,9 @@ class SideMenu extends Component {
               <Left>
                 <Thumbnail source={require('../resource/Images/Icon-user.png')} />
                 <Body>
-                  <Text>Thitiwut Boonyoung</Text>
+                  <View>
+                    <Text>{this.props.name}</Text>
+                  </View>
                 </Body>
               </Left>
             </CardItem>
@@ -82,7 +91,7 @@ class SideMenu extends Component {
               </Text>
               </Button>
               <Button transparent
-                  onPress={() => navigate("Login")}
+                  onPress={this.clicklogout}
               >
               <Text style={styles.navItemStyle}>
               <Icon 
@@ -104,4 +113,15 @@ SideMenu.propTypes = {
   navigation: PropTypes.object
 };
 
-export default SideMenu;
+const mapStateToProps = (state) =>({
+  name : state.user.name
+})
+const mapDispatchToProps = dispatch => ({
+  handleSetName: (text) => {
+    dispatch(setUsername(text))
+  },
+  handleChklogin: (text) => {
+    dispatch(checkloginfacebook(text))
+  }
+})
+export default connect(mapStateToProps,mapDispatchToProps)(SideMenu);

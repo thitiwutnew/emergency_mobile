@@ -1,9 +1,8 @@
 {
   "expo": {
-    "name": "emergency_app",
-    "slug": "emergency_app",
+    "name": "emergency_mobile",
+    "slug": "emergency_mobile",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android",
@@ -12,6 +11,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "facebookScheme": "fb123456",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -25,6 +25,10 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "android": {
+      "package": "com.test.emergency_mobile"
+    },
+    "description": ""
   }
 }
