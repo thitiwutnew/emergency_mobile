@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Image, View, Dimensions , Platform } from "react-native";
+import { StyleSheet, Image, View, Dimensions , Platform, StatusBar } from "react-native";
 import {
   Container,
   Header,
@@ -16,13 +16,15 @@ import {
 } from "native-base";
 import { Header as Headers } from "../components/Header";
 import Map from '../components/Map'
+import { connect } from 'react-redux';
 
-export default class Home extends Component {
-
+class Home extends Component {
   render() {
+    if(this.props.chklogin=="0"){this.props.navigation.navigate("Login")}
     return (
       <Container>
-        <Headers open={() => this.props.navigation.openDrawer()} />
+        <StatusBar hidden = {true}/>
+        <Headers style={styles.header} open={() => this.props.navigation.openDrawer()} />
         <Content style={styles.container}> 
           <View style={styles.container}>
             <Map />
@@ -104,11 +106,15 @@ export default class Home extends Component {
     );
   }
 }
+const mapStateToProps = (state) =>({
+  chklogin : state.checklogin.chklogin
+})
+export default connect(mapStateToProps)(Home)
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#414c68",
-    height:1500,
   },
   logo: {
     marginTop: 20,

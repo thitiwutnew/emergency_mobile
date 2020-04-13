@@ -21,48 +21,49 @@ import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 export default class Map extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       latitude: null,
       locations: [],
       longitude: null,
       error:null,
       markers: [],
-    };
+    }
   }
 
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
        (position) => {
-         this.setState({
-           latitude: position.coords.latitude,
-           longitude: position.coords.longitude,
-           error: null,
-           locations: [
-            {
-              title: "ตำแหน่งปัจจบัน",
-              latlng: {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-              },
-            }
-          ]
-         });
-         this.setState({
-          markers: [
-            {
-              title: "test",
-              latlng: {
-                latitude: 14.1601201,
-                longitude: 101.3465792,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-              },
-              description: "test",
-              status:"sssss",
-            }
-          ]
-        });
+          if(position!=null){
+            this.setState({
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              error: null,
+              locations: [
+               {
+                 title: "ตำแหน่งปัจจบัน",
+                 latlng: {
+                   latitude: position.coords.latitude,
+                   longitude: position.coords.longitude,
+                 },
+               }
+             ]
+            });
+            this.setState({
+             markers: [
+               {
+                 title: "test",
+                 latlng: {
+                   latitude: 14.1601201,
+                   longitude: 101.3465792,
+                   latitudeDelta: 0.0922,
+                   longitudeDelta: 0.0421,
+                 },
+                 description: "test",
+                 status:"sssss",
+               }
+             ]
+           });
+          }
        },
        (error) => this.setState({ error: error.message }),
        { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
@@ -94,7 +95,7 @@ export default class Map extends Component {
                     title={location.title}
                     description={location.description}
                     tooltip={true}
-                    image={require('../resource/Images/Location.png')}
+                    //image={require('../resource/Images/Location.png')}
                     ref={ref => {this.location = ref; }}
                   />
                 );

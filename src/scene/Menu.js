@@ -5,8 +5,8 @@ import {NavigationActions} from 'react-navigation';
 import {ScrollView, View,Image} from 'react-native';
 import { Container, Header, Left, Body, Thumbnail, Button,Icon, Content,Badge,Text,CardItem, Card } from 'native-base';
 import { connect } from 'react-redux'
-import { setUsername } from '../actions/facebooklogin'
-import { checkloginfacebook } from '../actions/checklogin'
+import { setUsername } from '../actions/at_facebooklogin'
+import { checkloginfacebook } from '../actions/at_checklogin'
 
 class SideMenu extends Component {
   navigateToScreen = (route) => () => {
@@ -43,7 +43,7 @@ class SideMenu extends Component {
             </CardItem>
             </Card>
             <View style={styles.navSectionStyle}>
-              <Button transparent>
+              <Button transparent  onPress={() => navigate("Firstaid")} >
               <Text style={styles.navItemStyle} >
               <Icon 
                 name="plus-circle" 

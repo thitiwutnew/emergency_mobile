@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet,Image, View} from 'react-native';
+import { StyleSheet,Image, StatusBar} from 'react-native';
 import { Container, Header, Left, Body, Right, Button,Icon, Content,Badge,Text,List, ListItem } from 'native-base';
 import Icons from 'react-native-vector-icons/FontAwesome';
 import MenuDrawer from 'react-native-side-drawer'
@@ -9,6 +9,7 @@ export default class Home extends Component {
     var  {navigate} = this.props.navigation;
     return (
       <Container>
+          <StatusBar hidden = {true}/>
         <Header style={styles.header}>
           <Left>
             {
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
   header :{
     backgroundColor:'#5e697d',
     height: Platform.OS === 'ios' ? 100 : 60,
-    marginTop: Platform.OS === 'ios' ? null : 24,
+    marginTop: Platform.OS === 'ios' ? null : 0,
   },
   imageheader :{
     height: Platform.OS === 'ios' ? '100%' : 40,

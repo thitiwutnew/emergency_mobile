@@ -4,8 +4,8 @@ import { Container, Footer, Left, Body, Right, Button, Icon, View, Form, Text, I
 import * as Facebook from 'expo-facebook';
 import { connect } from 'react-redux'
 import Home from '../scene/Home';
-import { setUsername } from '../actions/facebooklogin'
-import { checkloginfacebook } from '../actions/checklogin'
+import { setUsername } from '../actions/at_facebooklogin'
+import { checkloginfacebook } from '../actions/at_checklogin'
 
 var name="";
 class FacebookLogin extends Component {

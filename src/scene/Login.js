@@ -3,8 +3,26 @@ import { StyleSheet,Image, ImageBackground,Alert } from 'react-native';
 import { Container, Footer, Left, Body, Right, Button,Icon, View,Form,Text,Input, Item } from 'native-base';
 import FacebookLogin from '../components/FacebookLogin'
 import { connect } from 'react-redux';
-
+import { checkloginfacebook } from '../actions/at_checklogin'
+import { setlocation } from '../actions/at_location'
 class Login extends Component {
+
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+       (position) => {
+         console.log(position.coords.latitude)
+         console.log(position.coords.longitude)
+       },
+       (error) => this.setState({ error: error.message }),
+       { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
+     );
+   }
+
+  clicklogout =()=>{
+    let chk =1; 
+    this.props.handleChklogin(chk)
+  }
 
   render() {
     var  {navigate} = this.props.navigation;
@@ -28,7 +46,10 @@ class Login extends Component {
                     <Item rounded last style={styles.input}>
                         <Input placeholder='Password '/>
                     </Item>
-                    <Button rounded primary style={styles.contentbtn}>
+                    <Button 
+                        onPress={this.clicklogout}
+                        rounded primary 
+                        style={styles.contentbtn}>
                         <Text>   sign in   </Text>
                     </Button>
                     <Button transparent style={styles.contentbtnforget}>
@@ -48,8 +69,15 @@ class Login extends Component {
 const mapStateToProps = (state) =>({
   status : state.checklogin.chklogin
 })
-
-export default connect(mapStateToProps)(Login);
+const mapDispatchToProps = dispatch => ({
+  handleChklogin: (text) => {
+    dispatch(checkloginfacebook(text))
+  },
+  handleLocation: (text) => {
+    dispatch(setlocation(text))
+  }
+})
+export default connect(mapStateToProps,mapDispatchToProps)(Login);
 
 const styles = StyleSheet.create({
   container: {
