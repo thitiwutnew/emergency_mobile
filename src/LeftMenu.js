@@ -3,14 +3,16 @@ import {Dimensions} from "react-native";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import Menu from "./scene/Menu";
 import Home from "./scene/Home";
+import Login from './scene/Login';
 
 const Widthmenu = Dimensions.get('window').width;
 const LeftMenu = createDrawerNavigator(
     {
-        Home:{ screen: Home}
+        Home:{ screen: Home},
+        Login: { screen: Login }
     },
     {
-        initialRouteName: "Home",
+        initialRouteName: "Login",
         drawerWidth : Widthmenu*0.60,
         drawerPosition: 'left',
         contentOptions: {

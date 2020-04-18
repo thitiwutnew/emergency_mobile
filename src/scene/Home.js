@@ -1,24 +1,20 @@
 import React, { Component } from "react";
-import { StyleSheet, Image, View, Dimensions , Platform, StatusBar } from "react-native";
-import {
-  Container,
-  Header,
-  Left,
-  Body,
-  Right,
-  Button,
-  Icon,
-  Content,
-  Badge,
-  Text as Texts,
-  Footer,
-  FooterTab
-} from "native-base";
-import { Header as Headers } from "../components/Header";
+import { StyleSheet, View, Platform, StatusBar } from "react-native";
+import { Container,Button,Icon,Content,Text, Form } from "native-base";
+import { Header as Headers } from "./Header";
+import  Footer  from './Footer'
 import Map from '../components/Map'
 import { connect } from 'react-redux';
+import {  Foundation } from "@expo/vector-icons";
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      progressVisible: true,
+    }
+  }
+
   render() {
     if(this.props.chklogin=="0"){this.props.navigation.navigate("Login")}
     return (
@@ -26,88 +22,39 @@ class Home extends Component {
         <StatusBar hidden = {true}/>
         <Headers style={styles.header} open={() => this.props.navigation.openDrawer()} />
         <Content style={styles.container}> 
-          <View style={styles.container}>
-            <Map />
-          </View>
-          </Content>
-        <Footer>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "column",
-              backgroundColor: "#49536e"
-            }}
-          >
-            <View
-              style={{
-                position: "absolute",
-                alignSelf: "center",
-                backgroundColor: "#fff",
-                width: 110,
-                height: 110,
-                borderRadius: 65,
-                bottom: 15,
-                zIndex: 10,
-                padding: "17%",
-                paddingTop: 30,
-                borderWidth: 3,
-                borderColor: "#acacac"
-              }}
-            >
-              <Button transparent>
-                <Icon
-                  name="ios-call"
-                  type="Ionicons"
-                  color="#f00"
-                  containerStyle={{ alignSelf: "center" }}
-                  style={{ fontSize: 50, color: "red" }}
-                  reverse
-                  onPress={() => {}}
-                />
-              </Button>
+        { this.props.makedirectionvalue!=null && this.props.makedirectionvalue!="" ? <View  
+          style={[ styles.list,styles.marginless,styles.active]}
+          underlayColor={"#d24146"}
+          activeOpacity={0.9}
+        >
+          <View style={{ flex: 1, flexDirection: "row" }} >
+            <View style={styles.infoCol}>
+              <Text>
+                <Text style={styles.textTitle}>
+                  การนำทางไปยังจุดบริการ AED{"\n"}
+                </Text>
+                <Text style={styles.textSubtitle}>
+                  <Foundation name="marker" size={14} color="white" />{" "}
+                </Text>
+              </Text>
             </View>
-            <View
-              style={{
-                position: "absolute",
-                backgroundColor: "#f03b42",
-                bottom: 0,
-                zIndex: 1,
-                width: "100%",
-                height: 60,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                paddingHorizontal: 15,
-                paddingVertical: 10
-              }}
-            >
-              <Button transparent >
-                <Icon
-                  name="camera"
-                  color="#fff"
-                  style={{ fontSize: 35, marginLeft: "13%", color: "#fff" }}
-                  onPress={() => {}}
-                />
-              </Button>
-              <View style={{ flexDirection: "row", justifyContent: "center" }}>
-                <Button transparent>
-                  <Icon
-                    name="chatboxes"
-                    color="#fff"
-                    style={{ fontSize: 35, marginRight: "20%", color: "#fff" }}
-                    onPress={() => {}}
-                    containerStyle={{ marginHorizontal: 16 }}
-                  />
-                </Button>
-              </View>
+            <View style={styles.timeCol}>
+              <Text style={styles.textSmall}>เวลาในการเดินทาง</Text>
+              <Text style={styles.textLarge}>03:11</Text>
             </View>
           </View>
-        </Footer>
+        </View> : null}
+        <Map/>
+        </Content>
+        <Footer/>
       </Container>
     );
   }
 }
 const mapStateToProps = (state) =>({
-  chklogin : state.checklogin.chklogin
+  chklogin : state.checklogin.chklogin,
+  makedirectionvalue: state.makedirection.makelocation,
+  Locationcurrent: state.Location.Location,
 })
 export default connect(mapStateToProps)(Home)
 
@@ -129,8 +76,61 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginTop: Platform.OS === "ios" ? -11 : -20
   },
-  mapStyle: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+
+  aletnavigation: {
+    marginVertical: 5,
+    padding: 10,
+    width: "100%",
+    height: "auto",
+    opacity: 0.95,
+    borderRadius: 15,
+    backgroundColor: "#c15252"
   },
+  infoCol: {
+    width: "70%",
+    justifyContent: "center"
+  },
+  timeCol: {
+    width: "30%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor:"#4285f4"
+  },
+  textLarge: {
+    fontWeight: "bold",
+    color: "white",
+    fontSize: 24
+  },
+  textSmall: {
+    color: "white",
+    fontSize: 14
+  },
+  textTitle: {
+    color: "white",
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 5
+  },
+  textSubtitle: {
+    color: "white",
+    fontSize: 14
+  },
+  list: {
+    width: "100%",
+    height: "auto",
+    opacity: 0.95,
+    backgroundColor: "#c15252",
+  },
+  marginless: {
+    paddingLeft:"5%",
+    width: "100%",
+    height: 70,
+    opacity: 1.00,
+    borderRadius: 0,
+    backgroundColor: "#c15252"
+  },
+  active: {
+    backgroundColor: "#d24146"
+  },
+  
 });

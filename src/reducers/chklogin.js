@@ -1,5 +1,5 @@
 const initialState = {
-    chklogin : 1
+    chklogin : 0
 }
 
 const chklogin = (state = initialState, action) => {

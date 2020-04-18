@@ -52,9 +52,9 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   header: {
-    backgroundColor: "#5e697d",
+    backgroundColor: "#405273",
     padding: 10,
-    paddingTop: 40,
+    paddingTop: 20,
     flexDirection: "row",
     justifyContent: "space-between"
   },

@@ -52,7 +52,7 @@ class SideMenu extends Component {
               />   First-Aid
               </Text>
               </Button>
-              <Button transparent>
+              <Button transparent onPress={() => navigate("Cpr")}>
               <Text style={styles.navItemStyle} >
               <Icon 
                 name="heartbeat" 

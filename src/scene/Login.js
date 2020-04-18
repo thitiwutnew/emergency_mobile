@@ -6,13 +6,30 @@ import { connect } from 'react-redux';
 import { checkloginfacebook } from '../actions/at_checklogin'
 import { setlocation } from '../actions/at_location'
 class Login extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      locations: [],
+      error: null,
 
+
+    }
+  }
 
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
        (position) => {
-         console.log(position.coords.latitude)
-         console.log(position.coords.longitude)
+         this.setState({
+          locations: [
+            {
+              title: 'ตำแหน่งปัจจบัน',
+              latlng: {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+              },
+            },
+          ]
+         })
        },
        (error) => this.setState({ error: error.message }),
        { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
@@ -22,6 +39,7 @@ class Login extends Component {
   clicklogout =()=>{
     let chk =1; 
     this.props.handleChklogin(chk)
+    this.props.handleLocation(this.state.locations)
   }
 
   render() {

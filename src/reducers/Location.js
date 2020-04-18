@@ -1,5 +1,5 @@
 const initialState = {
-    Location: []
+    Location: ''
 }
 
 const Location = (state = initialState, action) => {

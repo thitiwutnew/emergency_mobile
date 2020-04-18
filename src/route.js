@@ -8,6 +8,7 @@ import Firstaid from './scene/FirstAid'
 import facebooklogin from './components/FacebookLogin'
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import Cpr from './scene/Cpr'
 const navigation = createStackNavigator({
   Login: { screen: Login },
   Home: { screen: Home },
@@ -16,6 +17,7 @@ const navigation = createStackNavigator({
   Map: { screen: Map },
   Firstaid: { screen: Firstaid },
   facebooklogin: { screen: facebooklogin },
+  Cpr: { screen: Cpr },
 }, {
   headerMode: 'none',
   navigationOptions: {
