@@ -9,6 +9,8 @@ import facebooklogin from './components/FacebookLogin'
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Cpr from './scene/Cpr'
+import registeruserdata from './components/Registeruserdata'
+import registeruser from './components/Registeruser'
 const navigation = createStackNavigator({
   Login: { screen: Login },
   Home: { screen: Home },
@@ -18,6 +20,8 @@ const navigation = createStackNavigator({
   Firstaid: { screen: Firstaid },
   facebooklogin: { screen: facebooklogin },
   Cpr: { screen: Cpr },
+  registeruserdata: { screen: registeruserdata },
+  registeruser: { screen: registeruser },
 }, {
   headerMode: 'none',
   navigationOptions: {

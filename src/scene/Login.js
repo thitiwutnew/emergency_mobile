@@ -49,14 +49,13 @@ class Login extends Component {
     return (
       <Container>
             <ImageBackground 
-            style={{height:'100%'}}
-                source={require('../resource/Images/bg-login.png')}
+              style={{height:'100%'}}
+              source={require('../resource/Images/bg-login.png')}
             >
-              
-                <Image  
-                    style={styles.imagelogo}
-                    source={require('../resource/Images/Logo-login.png')} 
-                />
+            <Image  
+              style={styles.imagelogo}
+              source={require('../resource/Images/Logo-login.png')} 
+            />
                 <Form style={styles.contentform}>
                     <Item rounded last style={styles.input}>
                         <Input  placeholder='Username' />
@@ -70,12 +69,16 @@ class Login extends Component {
                         style={styles.contentbtn}>
                         <Text>   sign in   </Text>
                     </Button>
+                   <Text style={styles.hairline}>────────  OR  ────────</Text>
+                   <Button transparent style={styles.btnfacebook}>
+                        <Text style={{fontSize:15,color:'#fff'}}>Login with Facebook</Text>
+                    </Button>
                     <Button transparent style={styles.contentbtnforget}>
-                        <Text style={{fontSize:10,color:'#fff'}}>forget password</Text>
+                        <Text style={{fontSize:12,color:'#fff'}}>forget password</Text>
                     </Button>
                     <View style={styles.view}>
-                        <Text style={{fontSize:13,color:'#fff'}}>Don't Have Account ?</Text>
-                        <FacebookLogin/>
+                        <Text style={{fontSize:15,color:'#fff'}}>Don't Have Account ?</Text>
+                        <FacebookLogin />
                     </View>
                 </Form>
             </ImageBackground>
@@ -103,15 +106,14 @@ const styles = StyleSheet.create({
     backgroundColor:'#5e697d',
 },
     contentbtn: {
-    marginTop:20,
+    marginTop:10,
     alignSelf:'center',
     padding:25,
     color: '#fff',
     fontWeight: 'bold',
   },
   contentbtnforget: {
-    margin:5,
-    marginBottom:'40%',
+    marginTop:"2%",
     alignSelf:'center',
     color: '#fff',
     fontWeight: 'bold',
@@ -119,11 +121,12 @@ const styles = StyleSheet.create({
   },
   imagelogo:{
     display:'flex',
-    margin:50,
+    margin:"10%",
     alignSelf:'center'
   },
   contentform :{
-      alignSelf:'center',
+    alignSelf:'center',
+    alignItems:'center',
     width:'80%',
   },
   input:{
@@ -134,6 +137,21 @@ const styles = StyleSheet.create({
       display:'flex',
   },
   view:{
+      marginTop:"20%" ,
       alignItems:'center'
-  }
+  },
+  hairline: {
+    marginTop:10,
+    padding:10,
+    fontWeight:"900",
+    fontSize:20,
+    color:"#FFF",
+  },
+  btnfacebook: {
+    marginTop:10,
+    justifyContent:"center",
+    borderRadius:7,
+    backgroundColor:"#0d8bf0",
+    width:"75%",
+  },
 });

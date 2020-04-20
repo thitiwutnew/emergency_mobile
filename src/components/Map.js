@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import { StyleSheet, Dimensions, Platform, Alert } from 'react-native'
-import { Text } from 'native-base'
+import { Text, Button, Body, Footer } from 'native-base'
 import MapView, { Marker, PROVIDER_GOOGLE, Callout } from 'react-native-maps'
 import MapViewDirections from 'react-native-maps-directions'
 import { connect } from 'react-redux'
 import { makedirecttion } from '../actions/at_makedirecttion'
 import { setlocation } from '../actions/at_location'
+import { Dialog } from 'react-native-simple-dialogs';
+import { View } from 'react-native-animatable'
+
 class Map extends Component {
   constructor(props) {
     super(props)
@@ -14,9 +17,10 @@ class Map extends Component {
       longitude: null,
       markers: [],
       makedirect: null,
-      makedirects: null,
+      datamakedirect: null,
       error: null,
       dataSource:null,
+      dialogVisible:false,
 
     }
   }
@@ -37,7 +41,6 @@ class Map extends Component {
                   },
                 ]
               })
-              console.log(newCoordinate)
               this.props.handleLocation(this.state.locations)
             },
             (error) => this.setState({ error: error.message }),
@@ -50,8 +53,8 @@ class Map extends Component {
                 latlng: {
                   latitude: 14.1601201,
                   longitude: 101.3465792,
-                  latitudeDelta: 0.0922,
-                  longitudeDelta: 0.0421,
+                  latitudeDelta: 0,
+                  longitudeDelta: 0.05,
                 },
                 description: 'test1',
                 status: 'sssss',
@@ -59,10 +62,10 @@ class Map extends Component {
               {
                 title: 'test2',
                 latlng: {
-                  latitude: 14.1586805,
-                  longitude: 101.3635962,
-                  latitudeDelta: 0.0922,
-                  longitudeDelta: 0.0421,
+                  latitude: 14.1554842,
+                  longitude: 101.3653599,
+                  latitudeDelta: 0,
+                  longitudeDelta: 0.05,
                 },
                 description: 'test2',
                 status: 'sssss',
@@ -93,77 +96,100 @@ class Map extends Component {
   }
 
   locationdirect = (value) => {
-    let latitude = value.nativeEvent.coordinate.latitude
-    let longitude = value.nativeEvent.coordinate.longitude
-    const origin = { latitude: this.state.latitude, longitude: this.state.longitude }
-    const destination = { latitude: latitude,longitude: longitude }
-    fetch("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=40.6655101,-73.89188969999998&destinations=enc:_kjwFjtsbMt%60EgnKcqLcaOzkGari%40naPxhVg%7CJjjb%40cqLcaOzkGari%40naPxhV:&key=AIzaSyCaZfz6Roxtd39P-gDKwTy6VZ-DJUhjEiY")
+
+    const {latitude, longitude} = this.state
+    let latitudes = value.latlng.latitude
+    let longitudes = value.latlng.longitude
+    const origin = { latitude:latitude, longitude: longitude }
+    const destination = { latitude: latitudes,longitude: longitudes }
+
+
+    fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${latitude},${longitude}&destinations=${latitudes},${longitudes}&departure_time=now&language=th&key=AIzaSyCaZfz6Roxtd39P-gDKwTy6VZ-DJUhjEiY`)
     .then(response => response.json())
     .then((responseJson)=> {
-      console.log(responseJson)
+      
       this.setState({
-       dataSource: responseJson
+        dataSource: {"title" : value.title,responseJson}
       })
+      this.props.handlemakelocation(this.state.dataSource)
     })
     .catch(error=>console.log(error))
-    console.log(this.state.dataSource)
-    Alert.alert(
-      'Navigation',
-      'My Alert Msg',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => {this.setState({ makedirect: null }),this.props.handlemakelocation(null)},
-          style: 'cancel',
-        },
-        {
-          text: 'OK',
-          onPress: () => {
-            this.setState({
-              makedirect: (
-                <MapViewDirections
-                  origin={origin}
-                  destination={destination}
-                  strokeWidth={5}
-                  resetOnChange={true}
-                  strokeColor="#4186ff"
-                  apikey={'AIzaSyCaZfz6Roxtd39P-gDKwTy6VZ-DJUhjEiY'}
-                />
-              ),
-            })
-            this.props.handlemakelocation(destination)
-          },
-        },
-      ],
-      { cancelable: false }
-    )
+    this.setState({
+      makedirect: (
+        <MapViewDirections
+          origin={origin}
+          destination={destination}
+          strokeWidth={5}
+          resetOnChange={true}
+          strokeColor="#4186ff"
+          apikey={'AIzaSyCaZfz6Roxtd39P-gDKwTy6VZ-DJUhjEiY'}
+        />
+      ),
+    })
   }
-
+  resetdirecttion = () => {
+    this.setState({
+      makedirect: null,
+      dialogVisible: false
+    })
+    this.props.handlemakelocation(null)
+  }
   render() {
-    const { latitude, longitude,locations } = this.state
-    var mapDirect = this.state.makedirect
+    const { latitude, longitude,locations,datamakedirect, makedirect } = this.state
+    var mapDirect = makedirect
+    var data =datamakedirect
+    data !=null ? data = data.title:null
     if(mapDirect==null){
       this.props.handlemakelocation(null)
     }
-    
     return (
       locations != null ?
-      <MapView
-        style={styles.mapStyle}
-        provider={PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: latitude,
-          longitude: longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-        showsUserLocation={true}
-        showsMyLocationButton={true}
-        followUserLocation={true}
-        loadingEnabled={true}
-        onMapReady={this.onMapReady}
-        onRegionChangeComplete={this.onRegionChange}
-      >
+      <View>
+        <Dialog
+            title="AED Service Place"
+            visible={this.state.dialogVisible}
+            onTouchOutside={() => this.setState({dialogVisible: false})}
+        >
+          <View>
+              { 
+                data ? <Text>{data+"\n\n"}sadasdasdas</Text>: null
+              }
+            <Footer style={styles.Dialogfooter}>
+              { 
+                  mapDirect!=null ?  <Button 
+                  style={styles.btncancel}
+                  onPress={() => { this.resetdirecttion()}}
+              >
+                <Text>Stop navigation</Text>
+              </Button> :  <Button 
+                  style={styles.btndirect}
+                  onPress={() => {
+                    this.locationdirect(datamakedirect),
+                    this.setState({dialogVisible: false})
+                  }}
+              >
+                <Text>Start navigation</Text>
+              </Button>
+              }
+            </Footer>
+          </View>
+        </Dialog>
+        <MapView
+              style={styles.mapStyle}
+              provider={PROVIDER_GOOGLE}
+              initialRegion={{
+                latitude: latitude,
+                longitude: longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}
+              showsUserLocation={true}
+              showsMyLocationButton={true}
+              followUserLocation={true}
+              loadingEnabled={true}
+              onMapReady={this.onMapReady}
+              onRegionChangeComplete={this.onRegionChange}
+        >
         {this.state.markers.map((marker, i) => {
           return (
             <Marker
@@ -175,7 +201,7 @@ class Map extends Component {
               ref={(ref) => {
                 this.marker = ref
               }}
-              onPress={this.locationdirect}
+              onPress={() => this.setState({dialogVisible: true,datamakedirect:marker})}
             >
               <Callout>
                 <Text>{marker.title}</Text>
@@ -185,7 +211,8 @@ class Map extends Component {
         })}
         {locations}
         {mapDirect}
-      </MapView> : null
+      </MapView>
+      </View>: null
     )
   }
 }
@@ -210,4 +237,21 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
+  btndirect:{
+    padding:5,
+    justifyContent: "center",
+    backgroundColor:'#4285f4',
+    width:"100%",
+  },
+  btncancel:{
+    padding:5,
+    justifyContent: "center",
+    backgroundColor:'#ff2d2d',
+    width:"100%",
+  },
+  Dialogfooter:{
+    padding:5,
+    backgroundColor:'#fff',
+  }
 })
+

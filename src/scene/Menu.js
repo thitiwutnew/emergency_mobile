@@ -80,7 +80,7 @@ class SideMenu extends Component {
               </Text>
               </Button>
               <Button transparent
-                  onPress={() => navigate("History")}
+                  onPress={() => navigate("registeruser")}
               >
               <Text style={styles.navItemStyle}>
               <Icon 

@@ -1,11 +1,16 @@
 import axios from 'axios'
+import { AsyncStorage } from 'react-native';
+let accessToken="";
+AsyncStorage.getItem('accessToken', (err, result) => {
+  accessToken = result;
+});
 
 const createApiInstance = () => {
   return ( 
     axios.create({
-      baseURL: "https://emergency-development.herokuapp.com",
+      baseURL: "https://emergency-mobile-development.herokuapp.com",
       headers: {
-        Authorization: `bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYWRtaW4iLCJpYXQiOjE1ODUzMjQ5ODgsImV4cCI6MTYxNjQyODk4OH0.3T-TSSya-UnncSsNAh-cOGrhRLeGWgpTy9_3YStbx9Y`
+        Authorization: `bearer ${accessToken}`
       }
     })
   )

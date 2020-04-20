@@ -3,11 +3,12 @@ import { Alert } from 'react-native'
 import { Container, Footer, Left, Body, Right, Button, Icon, View, Form, Text, Input, Item } from 'native-base';
 import * as Facebook from 'expo-facebook';
 import { connect } from 'react-redux'
+import _ from 'lodash'
 import Home from '../scene/Home';
 import { setUsername } from '../actions/at_facebooklogin'
 import { checkloginfacebook } from '../actions/at_checklogin'
-
-var name="";
+import auth from '../model/auth'
+import { AsyncStorage } from 'react-native';
 class FacebookLogin extends Component {
   constructor(props) {
     super();
@@ -17,7 +18,7 @@ class FacebookLogin extends Component {
   }
 
   async facebookLogin() {
-    var username=[];
+    var data=[];
     try {
       await Facebook.initializeAsync('2340201029416664');
       const {
@@ -33,7 +34,7 @@ class FacebookLogin extends Component {
         // Get the user's name using Facebook's Graph API
         const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
         this.setState({statuslogin: true})
-        username = (await response.json()).name;
+        data = (await response.json());
       } else {
         this.setState({statuslogin: false})
       }
@@ -41,7 +42,12 @@ class FacebookLogin extends Component {
       alert(`Facebook Login Error: ${message}`);
     }
     if(this.state.statuslogin == true){
-      this.props.handleSetName(username)
+      let descriptionAuth = { facebookid: data.id, facebookname: data.name }
+      let authToken = await auth.facebookAuth(descriptionAuth)
+      let accessToken = `${_.get(authToken, 'data.accessToken')}`
+      AsyncStorage.setItem('accessToken', accessToken)
+      console.log(accessToken)
+      this.props.handleSetName(data.name)
       let chk =1; 
       this.props.handleChklogin(chk)
     }
@@ -49,13 +55,15 @@ class FacebookLogin extends Component {
 
 
   render() {
-    const { statuslogin } = this.state;
+    const  statuslogin  = this.props.status;
     return (
-      statuslogin == false ? <Button transparent onPress={this.facebookLogin.bind(this)} ><Icon name="facebook-square" type="FontAwesome" style={{ color: '#4267b2', fontSize: 30 }} /></Button> :  null
+      statuslogin == 0 ? <Button transparent onPress={this.facebookLogin.bind(this)} ><Icon name="facebook-square" type="FontAwesome" style={{ color: '#0d8bf0', fontSize: 45, }} /></Button> :  null
     );
   }
 }
-
+const mapStateToProps = (state) =>({
+  status : state.checklogin.chklogin
+})
 const mapDispatchToProps = dispatch => ({
   handleSetName: (text) => {
     dispatch(setUsername(text))
@@ -64,4 +72,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(checkloginfacebook(text))
   }
 })
-export default connect(null, mapDispatchToProps)(FacebookLogin)
+export default connect(mapStateToProps, mapDispatchToProps)(FacebookLogin)

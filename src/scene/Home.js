@@ -8,15 +8,27 @@ import { connect } from 'react-redux';
 import {  Foundation } from "@expo/vector-icons";
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      progressVisible: true,
-    }
-  }
 
   render() {
+    var timedirect = null, distance=null,namedirection=null 
     if(this.props.chklogin=="0"){this.props.navigation.navigate("Login")}
+    if(this.props.makedirectionvalue!=null && this.props.makedirectionvalue!=""){
+      const locationsss =this.props.makedirectionvalue
+      namedirection = locationsss.title
+      Object.values(locationsss).map( value =>
+        Object.values(value).map( values =>
+          { 
+            if(values[0].elements!=undefined){
+              if(values[0].elements !=undefined){
+                timedirect=values[0].elements[0].duration_in_traffic.text,
+                distance=values[0].elements[0].distance.text
+              }
+            }
+          } 
+        )
+      );
+    }
+
     return (
       <Container>
         <StatusBar hidden = {true}/>
@@ -31,16 +43,16 @@ class Home extends Component {
             <View style={styles.infoCol}>
               <Text>
                 <Text style={styles.textTitle}>
-                  การนำทางไปยังจุดบริการ AED{"\n"}
+                  การนำทางจุดบริการ AED{"\n"}
                 </Text>
                 <Text style={styles.textSubtitle}>
-                  <Foundation name="marker" size={14} color="white" />{" "}
+                  <Foundation name="marker" size={14} color="white" /> {namedirection}
                 </Text>
               </Text>
             </View>
             <View style={styles.timeCol}>
-              <Text style={styles.textSmall}>เวลาในการเดินทาง</Text>
-              <Text style={styles.textLarge}>03:11</Text>
+              <Text style={styles.textLarge}>{timedirect}</Text>
+              <Text style={styles.textSmall}>{distance}</Text>
             </View>
           </View>
         </View> : null}
@@ -94,16 +106,18 @@ const styles = StyleSheet.create({
     width: "30%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor:"#4285f4"
+    backgroundColor:"#4285f4",
+    padding:10
   },
   textLarge: {
     fontWeight: "bold",
     color: "white",
-    fontSize: 24
+    fontSize: 20
   },
   textSmall: {
-    color: "white",
-    fontSize: 14
+    color: "black",
+    fontSize: 18,
+    padding: 5
   },
   textTitle: {
     color: "white",
