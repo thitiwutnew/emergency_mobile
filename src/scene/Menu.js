@@ -48,7 +48,7 @@ class SideMenu extends Component {
               <Icon 
                 name="plus-circle" 
                 type="FontAwesome"
-                style={{fontSize:35,marginLeft: '13%',color:'#fff'}}
+                style={{fontSize:30,marginLeft: '13%',color:'#fff'}}
               />   First-Aid
               </Text>
               </Button>
@@ -57,16 +57,16 @@ class SideMenu extends Component {
               <Icon 
                 name="heartbeat" 
                 type="FontAwesome"
-                style={{fontSize:35,marginLeft: '13%',color:'#fff'}}
+                style={{fontSize:30,marginLeft: '13%',color:'#fff'}}
               />  CPR
               </Text>
               </Button>
-              <Button transparent>
+              <Button transparent onPress={() => navigate("Aed")}>
               <Text style={styles.navItemStyle} >
               <Icon 
                 name="heart-broken" 
                 type="FontAwesome5"
-                style={{fontSize:35,marginLeft: '13%',color:'#fff'}}
+                style={{fontSize:30,marginLeft: '13%',color:'#fff'}}
               />  AED
               </Text>
               </Button>
@@ -75,7 +75,7 @@ class SideMenu extends Component {
               <Icon 
                 name="md-chatboxes" 
                 type="Ionicons"
-                style={{fontSize:35,marginLeft: '13%',color:'#fff'}}
+                style={{fontSize:30,marginLeft: '13%',color:'#fff'}}
               />   Chat
               </Text>
               </Button>
@@ -86,7 +86,7 @@ class SideMenu extends Component {
               <Icon 
                 name="history" 
                 type="FontAwesome"
-                style={{fontSize:35,marginLeft: '13%',color:'#fff'}}
+                style={{fontSize:30,marginLeft: '13%',color:'#fff'}}
               />   History
               </Text>
               </Button>
@@ -97,7 +97,7 @@ class SideMenu extends Component {
               <Icon 
                 name="log-out" 
                 type="Entypo"
-                style={{fontSize:33,marginLeft: '13%',color:'#fff'}}
+                style={{fontSize:30,marginLeft: '13%',color:'#fff'}}
               />  Log-out
               </Text>
               </Button>

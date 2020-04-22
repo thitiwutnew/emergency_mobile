@@ -11,6 +11,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import Cpr from './scene/Cpr'
 import registeruserdata from './components/Registeruserdata'
 import registeruser from './components/Registeruser'
+import Aed from './components/Aed'
 const navigation = createStackNavigator({
   Login: { screen: Login },
   Home: { screen: Home },
@@ -22,6 +23,7 @@ const navigation = createStackNavigator({
   Cpr: { screen: Cpr },
   registeruserdata: { screen: registeruserdata },
   registeruser: { screen: registeruser },
+  Aed: { screen: Aed },
 }, {
   headerMode: 'none',
   navigationOptions: {

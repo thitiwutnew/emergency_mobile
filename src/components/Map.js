@@ -8,7 +8,7 @@ import { makedirecttion } from '../actions/at_makedirecttion'
 import { setlocation } from '../actions/at_location'
 import { Dialog } from 'react-native-simple-dialogs';
 import { View } from 'react-native-animatable'
-
+import { aedlocation } from '../actions/at_aedlocation'
 class Map extends Component {
   constructor(props) {
     super(props)
@@ -135,13 +135,14 @@ class Map extends Component {
     this.props.handlemakelocation(null)
   }
   render() {
-    const { latitude, longitude,locations,datamakedirect, makedirect } = this.state
+    const { latitude, longitude,locations,datamakedirect, makedirect, markers } = this.state
     var mapDirect = makedirect
     var data =datamakedirect
     data !=null ? data = data.title:null
     if(mapDirect==null){
       this.props.handlemakelocation(null)
     }
+    this.props.handleaedlocation(markers)
     return (
       locations != null ?
       <View>
@@ -190,7 +191,7 @@ class Map extends Component {
               onMapReady={this.onMapReady}
               onRegionChangeComplete={this.onRegionChange}
         >
-        {this.state.markers.map((marker, i) => {
+        {markers.map((marker, i) => {
           return (
             <Marker
               key={i}
@@ -227,6 +228,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleLocation: (text) => {
     dispatch(setlocation(text))
+  },
+  handleaedlocation: (text) => {
+    dispatch(aedlocation(text))
   }
 })
 
