@@ -1,8 +1,8 @@
 import api from '../utils/api'
 
 const User = {
-  createUserProfile: data => {
-    return api.post(`service/management/profile`, data)
+  updateprofile: (data, id) => {
+    return api.put(`v1/users/profile/${id}`, data)
   }
 }
 

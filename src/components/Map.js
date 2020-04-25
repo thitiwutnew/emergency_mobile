@@ -21,16 +21,21 @@ class Map extends Component {
       error: null,
       dataSource:null,
       dialogVisible:false,
-
+      locations:null,
+      markerlocations:null,
     }
   }
 
   componentDidMount() {
           navigator.geolocation.getCurrentPosition(
             (position) => {
+              let latlng ={
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+              }
               this.setState({
-                latitude: value.latlng.latitude,
-                longitude: value.latlng.longitude,
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
                 locations: [
                   {
                     title: 'ตำแหน่งปัจจบัน',
@@ -39,7 +44,17 @@ class Map extends Component {
                       longitude: position.coords.longitude,
                     },
                   },
-                ]
+                ],
+                markerlocations:(
+                  <Marker
+                    coordinate={latlng}
+                    title='ตำแหน่งปัจจบัน'
+                    tooltip={true}
+                    ref={(ref) => {
+                      latlng = ref
+                    }}
+                  />
+                )
               })
               this.props.handleLocation(this.state.locations)
             },
@@ -73,30 +88,9 @@ class Map extends Component {
             ],
           })
         
-    {
-      const locationsss = this.props.Locationcurrent
-      Object.values(locationsss).map( value =>
-        this.setState({
-          latitude: value.latlng.latitude,
-          longitude: value.latlng.longitude,
-          error: null,
-          locations:(
-                  <Marker
-                    coordinate={value.latlng}
-                    title={value.title}
-                    tooltip={true}
-                    ref={(ref) => {
-                      value = ref
-                    }}
-                  />
-          )
-        })
-      )
-    }
+  
   }
-
   locationdirect = (value) => {
-
     const {latitude, longitude} = this.state
     let latitudes = value.latlng.latitude
     let longitudes = value.latlng.longitude
@@ -135,7 +129,7 @@ class Map extends Component {
     this.props.handlemakelocation(null)
   }
   render() {
-    const { latitude, longitude,locations,datamakedirect, makedirect, markers } = this.state
+    const { latitude, longitude,locations,datamakedirect, makedirect, markers, markerlocations } = this.state
     var mapDirect = makedirect
     var data =datamakedirect
     data !=null ? data = data.title:null
@@ -144,7 +138,7 @@ class Map extends Component {
     }
     this.props.handleaedlocation(markers)
     return (
-      locations != null ?
+      markerlocations != null ?
       <View>
         <Dialog
             title="AED Service Place"
@@ -184,6 +178,7 @@ class Map extends Component {
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
               }}
+              tooltip={true}
               showsUserLocation={true}
               showsMyLocationButton={true}
               followUserLocation={true}
@@ -210,7 +205,7 @@ class Map extends Component {
             </Marker>
           )
         })}
-        {locations}
+        {markerlocations}
         {mapDirect}
       </MapView>
       </View>: null

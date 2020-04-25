@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet } from 'react-native'
+import { Alert } from 'react-native'
 import { Container, Footer, Left, Body, Right, Button, Icon, View, Form, Text, Input, Item } from 'native-base'
 import * as Facebook from 'expo-facebook'
 import { connect } from 'react-redux'
@@ -65,9 +65,7 @@ class FacebookLogin extends Component {
 
   render() {
     return (
-      <Button transparent onPress={this.facebookLogin.bind(this)} style={styles.btnfacebook}>
-        <Text style={{fontSize:15,color:'#fff'}}>Login with Facebook</Text>
-      </Button>
+      <Button transparent onPress={this.facebookLogin.bind(this)} ><Icon name="facebook-square" type="FontAwesome" style={{ color: '#0d8bf0', fontSize: 40, }} /></Button>
     );
   }
 }
@@ -83,13 +81,3 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 export default connect(mapStateToProps, mapDispatchToProps)(FacebookLogin)
-
-const styles = StyleSheet.create({
-    btnfacebook: {
-        marginTop:10,
-        justifyContent:"center",
-        borderRadius:7,
-        backgroundColor:"#0d8bf0",
-        width:"75%",
-      },
-})

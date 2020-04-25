@@ -4,11 +4,13 @@ import chklogin from './chklogin'
 import Location from './Location'
 import makedirections from './makedirection'
 import aedlocations from './aedlocation'
+import userdata from './dataregister'
 export default combineReducers({
     user: users,
     checklogin : chklogin,
     Location : Location,
     makedirection : makedirections,
-    aedlocation: aedlocations
+    aedlocation: aedlocations,
+    Userdata : userdata
 
 })

@@ -5,7 +5,7 @@ import LeftMenu from './LeftMenu';
 import History from './scene/History';
 import Map from './components/Map';
 import Firstaid from './scene/FirstAid'
-import facebooklogin from './components/FacebookLogin'
+import facebooklogin from './components/FacebookRegister'
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Cpr from './scene/Cpr'
@@ -21,7 +21,7 @@ const navigation = createStackNavigator({
   Firstaid: { screen: Firstaid },
   facebooklogin: { screen: facebooklogin },
   Cpr: { screen: Cpr },
-  registeruserdata: { screen: registeruserdata },
+  registeruserdata: { screen: registeruserdata},
   registeruser: { screen: registeruser },
   Aed: { screen: Aed },
 }, {

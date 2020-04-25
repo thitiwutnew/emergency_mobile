@@ -1,16 +1,62 @@
-import React, { Component } from 'react';
-import { StyleSheet,Image, StatusBar} from 'react-native';
-import { Container, Header, Form, Item, Label, Input,Icon, Content,Text,Button, View } from 'native-base';
-import Icons from 'react-native-vector-icons/FontAwesome';
-import MenuDrawer from 'react-native-side-drawer'
+import React, { Component } from 'react'
+import { StyleSheet,Image, StatusBar, TextInput, TouchableHighlight} from 'react-native'
+import { Container, Header, Item, Label, Input,Icon, Content,Text,Button, View } from 'native-base'
+import { Form, Field } from 'react-native-validate-form'
+import InputField from './InputField'
+import InputFieldPassword from '../components/InputFieldPassword'
+import { connect } from 'react-redux';
+import { setUserdata } from '../actions/at_fbregister'
 
-export default class Register extends Component {
+class Registeruser extends Component {
 
-gotouserdata = () =>{
-    
-}
+  constructor() {
+    super();
+
+    this.state = {
+      errors: [],
+      email: '',
+      password:'',
+      confirmpassword:'',
+    }
+  }
+
+  submitForm() {
+    let submitResults = this.myForm.validate()
+
+    let errors = [];
+
+    submitResults.forEach(item => {
+      errors.push({ field: item.fieldName, error: item.error })
+    });
+    this.setState({ errors: errors });
+  }
+
+  submitSuccess() {
+    const { email, password } = this.state
+    let dataregister ={
+      fullname:'',
+      name:'',
+      lastname:'',
+      emailaddress: email,
+      password: password,
+      idcard:'',
+      disease:'',
+      allergy:'',
+      phone:'',
+      address:'',
+    }
+    this.props.handleUserdata(dataregister)
+    this.props.navigation.navigate("registeruserdata")
+  }
+
+  submitFailed() {
+    console.log("Submit Faield!")
+  }
+
   render() {
-    var  {navigate} = this.props.navigation;
+    const required = value => (value ? undefined : 'กรุณา กรอกข้อมุล.')
+    const email = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i.test(value) ? 'กรอก อีเมล ให้ถูกต้อง.' : undefined
+    const validatepasssword = value =>(this.state.password == value ? null : 'รหัสผ่านไม่ตรงกัน')
     return (
       <Container>
           <StatusBar hidden = {true}/>
@@ -27,22 +73,52 @@ gotouserdata = () =>{
               <Text style={{fontSize:18,color:'#FFF'}}>  ข้อมูลผู้ใช้งาน</Text>
             </Icon>
           </View>
-          <Form  style={{width:"95%",marginLeft:"1%"}}>
-            <Item floatingLabel>
-              <Label style={styles.form}>อีเมล์ :</Label>
-              <Input />
-            </Item>
-            <Item floatingLabel >
+          <Form  
+            style={styles.form}
+            ref={(ref) => this.myForm = ref}
+            validate={true}
+            submit={this.submitSuccess.bind(this)}
+            failed={this.submitFailed.bind(this)}
+            errors={this.state.errors}
+          >
+              <Label style={styles.form}>อีเมล :</Label>
+              <Field
+                  required
+                  component={InputField}
+                  validations={[required, email]}
+                  name="email"
+                  value={this.state.email}
+                  onChangeText={val => this.setState({ email: val })}
+                  customStyle={styles.input}
+                  placeholder="กรอก อีเมล"
+              />
               <Label style={styles.form}>รหัสผ่าน :</Label>
-              <Input />
-            </Item>
-            <Item floatingLabel >
+              <Field
+                  required
+                  secureTextEntry
+                  component={InputFieldPassword}
+                  validations={[required]}
+                  name="password"
+                  value={this.state.password}
+                  onChangeText={val => this.setState({ password: val })}
+                  customStyle={styles.input}
+                  placeholder="กรอก รหัสผ่าน"
+              />
               <Label style={styles.form}>ยืนยันรหัสผ่าน :</Label>
-              <Input />
-            </Item>
+              <Field
+                  required
+                  secureTextEntry={true}
+                  component={InputFieldPassword}
+                  validations={[required, validatepasssword]}
+                  name="confirmpassword"
+                  value={this.state.confirmpassword}
+                  onChangeText={val => this.setState({ confirmpassword: val })}
+                  customStyle={styles.input}
+                  placeholder="กรอก รหัสผ่าน"
+              />
             <Button block success 
                 style={styles.btnconfirm}
-                onPress={this.gotouserdata}
+                onPress={this.submitForm.bind(this)}
             >
               <Text style={styles.textbtnconfirm}>ถัดไป</Text>
             </Button>
@@ -52,6 +128,15 @@ gotouserdata = () =>{
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  handleUserdata: (text) => {
+    dispatch(setUserdata(text))
+  }
+})
+export default connect(null,mapDispatchToProps)(Registeruser);
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -82,10 +167,14 @@ const styles = StyleSheet.create({
     borderRadius:10,
   },
   form:{
+    marginTop:20,
     color:"#000",
     fontSize:18,
+    width:"90%",
+    marginLeft:"5%"
   },
   textbtnconfirm:{
+    marginTop:10,
     fontSize:18,
     fontWeight:"900",
   },
@@ -94,5 +183,20 @@ const styles = StyleSheet.create({
     alignSelf:'center',
     marginTop:"15%",
     width:"50%",
+  },
+  texterror:{
+    color:"red",
+    fontSize:13,
+    marginLeft:"5%"
+  },
+  input:{
+     width:"90%",
+     fontSize:15,
+     marginLeft:"5%",
+     marginTop:5,
+     borderRadius:7,
+     borderColor:"#2574a9",
+     borderWidth:2,
+     padding:7,
   }
 });

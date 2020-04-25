@@ -1,10 +1,10 @@
 import axios from 'axios'
 import { AsyncStorage } from 'react-native';
-let accessToken="";
-AsyncStorage.getItem('accessToken', (err, result) => {
-  accessToken = result;
-});
 
+let accessToken = null
+AsyncStorage.getItem('accessToken', (err, result) => {
+  accessToken = result
+});
 const createApiInstance = () => {
   return ( 
     axios.create({
@@ -23,6 +23,7 @@ const handleResponse = response => {
 const catchError = e => Promise.resolve(e.response)
 
 export default {
+
   get: (path, params) => 
     createApiInstance().request({
       url: path,

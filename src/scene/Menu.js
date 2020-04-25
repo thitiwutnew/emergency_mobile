@@ -1,14 +1,31 @@
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
+import _get from 'lodash/get'
 import styles from '../styles/SideMenu.style';
 import {NavigationActions} from 'react-navigation';
 import {ScrollView, View,Image} from 'react-native';
 import { Container, Header, Left, Body, Thumbnail, Button,Icon, Content,Badge,Text,CardItem, Card } from 'native-base';
 import { connect } from 'react-redux'
-import { setUsername } from '../actions/at_facebooklogin'
+import { setUsername } from '../actions/at_fblogin'
 import { checkloginfacebook } from '../actions/at_checklogin'
+import { AsyncStorage } from 'react-native'
 
 class SideMenu extends Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      profile: {},
+      fullname:null
+    }
+  }
+  async componentDidMount(){
+    let userprofiles = await AsyncStorage.getItem('userProfile')
+    let userJSON = JSON.parse(userprofiles)
+    this.setState({profile: userJSON,fullname: userJSON.fullname})
+ 
+  }
   navigateToScreen = (route) => () => {
     const navigateAction = NavigationActions.navigate({
       routeName: route
@@ -19,9 +36,12 @@ class SideMenu extends Component {
     this.props.handleChklogin(0)
     this.props.handleSetName(null)
     this.props.navigation.navigate("Login")
+    AsyncStorage.setItem('userProfile', null)
   }
   render () {
     var  {navigate} = this.props.navigation;
+    const { fullname } = this.state 
+   
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -36,7 +56,7 @@ class SideMenu extends Component {
                 <Thumbnail source={require('../resource/Images/Icon-user.png')} />
                 <Body>
                   <View>
-                    <Text>{this.props.name}</Text>
+                    <Text>{fullname}</Text>
                   </View>
                 </Body>
               </Left>

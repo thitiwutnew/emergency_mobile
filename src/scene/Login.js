@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import { StyleSheet,Image, ImageBackground,Alert } from 'react-native';
+import { StyleSheet,Image, ImageBackground,TextInput } from 'react-native';
 import { Container, Footer, Left, Body, Right, Button,Icon, View,Form,Text,Input, Item } from 'native-base';
+import FacebookCreatePF from '../components/FacebookRegister'
 import FacebookLogin from '../components/FacebookLogin'
 import { connect } from 'react-redux';
 import { checkloginfacebook } from '../actions/at_checklogin'
 import { setlocation } from '../actions/at_location'
+import auth from '../model/auth'
 class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
       locations: [],
       error: null,
+      email:null,
+      password:null,
 
 
     }
@@ -35,17 +39,37 @@ class Login extends Component {
        { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
      );
    }
+    clicklogin =() =>{
+        const { email, password } =this.state
+        let responce =  UserAuth()
+        //console.log(responce)
+        //let authToken = await auth.userAuth(descriptionAuth)
+        // let chk =1; 
+        // this.props.handleChklogin(chk)
+        this.props.handleLocation(this.state.locations)
+        //this.props.navigation.navigate("Home")
+        async function UserAuth() {
+          let data ={
+            username:email,
+            password:password
+          }
+          let authToken = await auth.userAuth(data)
+          console.log(authToken)
+          return authToken;
+        }
+    }
 
-  clicklogout =()=>{
-    let chk =1; 
-    this.props.handleChklogin(chk)
-    this.props.handleLocation(this.state.locations)
-  }
-
+    Userregister = () =>{
+        console.log("asdasdasd")
+    }
+    
+ 
   render() {
-    var  {navigate} = this.props.navigation;
+    let btnfbregis = <FacebookCreatePF/>
     let chk = this.props.status;
-    if(chk =="1"){ this.props.navigation.navigate("Home")}
+    if(chk.mustfilled ==="true"){ this.props.navigation.navigate("registeruser")}
+    else if(chk.mustfilled ==="false"){ this.props.navigation.navigate("Home")}
+    const { email, password } =this.state
     return (
       <Container>
             <ImageBackground 
@@ -58,27 +82,39 @@ class Login extends Component {
             />
                 <Form style={styles.contentform}>
                     <Item rounded last style={styles.input}>
-                        <Input  placeholder='Username' />
+                        <Input 
+                          placeholder='อีเมล' 
+                          value={email}
+                          onChangeText={(text) => this.setState({ email: text })} 
+                        />
                     </Item>
                     <Item rounded last style={styles.input}>
-                        <Input placeholder='Password '/>
+                        <Input 
+                          placeholder='รหัสผ่าน' 
+                          value={password}
+                          onChangeText={(text) => this.setState({ password: text })} 
+                          secureTextEntry={true}
+                        />
                     </Item>
                     <Button 
-                        onPress={this.clicklogout}
+                        onPress={this.clicklogin}
                         rounded primary 
                         style={styles.contentbtn}>
                         <Text>   sign in   </Text>
                     </Button>
                    <Text style={styles.hairline}>────────  OR  ────────</Text>
-                   <Button transparent style={styles.btnfacebook}>
-                        <Text style={{fontSize:15,color:'#fff'}}>Login with Facebook</Text>
-                    </Button>
+                    <FacebookLogin/>
                     <Button transparent style={styles.contentbtnforget}>
                         <Text style={{fontSize:12,color:'#fff'}}>forget password</Text>
                     </Button>
                     <View style={styles.view}>
                         <Text style={{fontSize:15,color:'#fff'}}>Don't Have Account ?</Text>
-                        <FacebookLogin />
+                        <Button transparent onPress={this.Userregister} >
+                          <Image  
+                            source={require('../resource/Images/Iconregister.png')} 
+                          />
+                          {btnfbregis}
+                        </Button>
                     </View>
                 </Form>
             </ImageBackground>
@@ -137,7 +173,8 @@ const styles = StyleSheet.create({
       display:'flex',
   },
   view:{
-      marginTop:"20%" ,
+      flex:1,
+      marginTop:"15%" ,
       alignItems:'center'
   },
   hairline: {
