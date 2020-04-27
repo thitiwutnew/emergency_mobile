@@ -42,11 +42,13 @@ class FacebookLogin extends Component {
       alert(`Facebook Login Error: ${message}`)
     }
     if(this.state.statuslogin == true){
+
       let descriptionAuth = { facebookid: data.id, facebookname: data.name }
       let authToken = await auth.facebookAuth(descriptionAuth)
       let accessToken = `${_.get(authToken, 'data.accessToken')}`
       AsyncStorage.setItem('accessToken', accessToken)
       this.props.handleSetName(data.name)
+     
       if(authToken.data.mustfilled==="true"){
         this.props.handleChklogin({
           mustfilled:authToken.data.mustfilled,
@@ -54,16 +56,20 @@ class FacebookLogin extends Component {
         })
       }
       else if(authToken.data.mustfilled==="false"){ 
-        this.props.handleChklogin({
-          mustfilled:authToken.data.mustfilled,
-          facebookid:authToken.data.facebookid
+        AsyncStorage.setItem('userProfile', JSON.stringify(authToken.data.profile[0]), () => {
+          this.props.handleChklogin({
+            mustfilled:authToken.data.mustfilled,
+            facebookid:authToken.data.facebookid
+          })
         })
+        this.props.navigation.navigate("Home")
       }
     }
   }
 
 
   render() {
+
     return (
       <Button transparent onPress={this.facebookLogin.bind(this)} style={styles.btnfacebook}>
         <Text style={{fontSize:15,color:'#fff'}}>Login with Facebook</Text>

@@ -7,6 +7,9 @@ import { connect } from 'react-redux';
 import { checkloginfacebook } from '../actions/at_checklogin'
 import { setlocation } from '../actions/at_location'
 import auth from '../model/auth'
+import _ from 'lodash'
+import { AsyncStorage } from 'react-native'
+
 class Login extends Component {
   constructor(props) {
     super(props)
@@ -20,7 +23,7 @@ class Login extends Component {
     }
   }
 
-  componentDidMount() {
+   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
        (position) => {
          this.setState({
@@ -39,37 +42,56 @@ class Login extends Component {
        { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 },
      );
    }
-    clicklogin =() =>{
+    clicklogin = async () => {
         const { email, password } =this.state
-        let responce =  UserAuth()
-        //console.log(responce)
-        //let authToken = await auth.userAuth(descriptionAuth)
-        // let chk =1; 
-        // this.props.handleChklogin(chk)
-        this.props.handleLocation(this.state.locations)
-        //this.props.navigation.navigate("Home")
-        async function UserAuth() {
-          let data ={
-            username:email,
-            password:password
+        if(email !=null && password !=null){
+            let data ={
+              email:email,
+              password:password
+            }
+            let authToken = await auth.userAuth(data)
+            console.log(authToken)
+            let mustfilled = `${_.get(authToken, 'data.mustfilled')}`
+            if(authToken.data.status === 401){
+              this.setState({ error: authToken.data.validateMessage})
+            }
+            else{
+              if(mustfilled ==="true"){
+                this.props.handleChklogin({
+                  mustfilled:mustfilled,
+                  facebookid:authToken.data.idAccount,
+                  profile :authToken.data.profile[0]
+                })
+                this.props.handleLocation(this.state.locations)
+                this.props.navigation.navigate("Registeruserdata")
+              }
+              else if(mustfilled ==="false"){
+                  AsyncStorage.setItem('userProfile', JSON.stringify(authToken.data.profile[0]), () => {
+                    this.setState({ 
+                      email:null,
+                      password: null,
+                      error: null
+                    })
+                  this.props.navigation.navigate("Home")
+                })
+              }
           }
-          let authToken = await auth.userAuth(data)
-          console.log(authToken)
-          return authToken;
-        }
     }
-
+    else{
+      this.setState({ error: "กรอกข้อมูลให้ครบ."})
+    }
+  }
     Userregister = () =>{
-        console.log("asdasdasd")
+      this.props.navigation.navigate("registeruser")
     }
     
  
   render() {
     let btnfbregis = <FacebookCreatePF/>
     let chk = this.props.status;
-    if(chk.mustfilled ==="true"){ this.props.navigation.navigate("registeruser")}
+    if(chk.mustfilled ==="true"){ this.props.navigation.navigate("registerfbuser")}
     else if(chk.mustfilled ==="false"){ this.props.navigation.navigate("Home")}
-    const { email, password } =this.state
+    const { email, password, error } =this.state
     return (
       <Container>
             <ImageBackground 
@@ -96,19 +118,22 @@ class Login extends Component {
                           secureTextEntry={true}
                         />
                     </Item>
+                    {
+                      error !=null ? <Text style={{fontSize:15,color:'#fff'}}>{error}</Text> : null
+                    }
                     <Button 
-                        onPress={this.clicklogin}
+                        onPress={this.clicklogin.bind(this)}
                         rounded primary 
                         style={styles.contentbtn}>
-                        <Text>   sign in   </Text>
+                        <Text>   เข้าสู่ระบบ   </Text>
                     </Button>
-                   <Text style={styles.hairline}>────────  OR  ────────</Text>
+                   <Text style={styles.hairline}>────────  หรือ  ────────</Text>
                     <FacebookLogin/>
                     <Button transparent style={styles.contentbtnforget}>
-                        <Text style={{fontSize:12,color:'#fff'}}>forget password</Text>
+                        <Text style={{fontSize:14,color:'#fff'}}>ลืมรหัสผ่าน</Text>
                     </Button>
                     <View style={styles.view}>
-                        <Text style={{fontSize:15,color:'#fff'}}>Don't Have Account ?</Text>
+                        <Text style={{fontSize:15,color:'#fff',marginBottom:5}}>ลงทะเบียน สมาชิกใหม่</Text>
                         <Button transparent onPress={this.Userregister} >
                           <Image  
                             source={require('../resource/Images/Iconregister.png')} 
@@ -132,7 +157,7 @@ const mapDispatchToProps = dispatch => ({
   },
   handleLocation: (text) => {
     dispatch(setlocation(text))
-  }
+  },
 })
 export default connect(mapStateToProps,mapDispatchToProps)(Login);
 

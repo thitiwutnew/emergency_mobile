@@ -87,8 +87,6 @@ class Map extends Component {
               },
             ],
           })
-        
-  
   }
   locationdirect = (value) => {
     const {latitude, longitude} = this.state
@@ -186,27 +184,31 @@ class Map extends Component {
               onMapReady={this.onMapReady}
               onRegionChangeComplete={this.onRegionChange}
         >
-        {markers.map((marker, i) => {
-          return (
-            <Marker
-              key={i}
-              title={marker.title}
-              coordinate={marker.latlng}
-              description={marker.description}
-              image={require('../resource/Images/AED.png')}
-              ref={(ref) => {
-                this.marker = ref
-              }}
-              onPress={() => this.setState({dialogVisible: true,datamakedirect:marker})}
-            >
-              <Callout>
-                <Text>{marker.title}</Text>
-              </Callout>
-            </Marker>
-          )
-        })}
+        {
+          markers.map((marker, i) => {
+            return (
+              <Marker
+                key={i}
+                title={marker.title}
+                coordinate={marker.latlng}
+                description={marker.description}
+                image={require('../resource/Images/AED.png')}
+                ref={(ref) => {
+                  this.marker = ref
+                }}
+                onPress={() => this.setState({dialogVisible: true,datamakedirect:marker})}
+              >
+                <Callout>
+                  <Text>{marker.title}</Text>
+                </Callout>
+              </Marker>
+            )
+          })
+        }
         {markerlocations}
-        {mapDirect}
+        {
+          this.props.makedirectionvalue !=null ? mapDirect : mapDirect=null 
+        }
       </MapView>
       </View>: null
     )

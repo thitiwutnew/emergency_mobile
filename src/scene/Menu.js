@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import { setUsername } from '../actions/at_fblogin'
 import { checkloginfacebook } from '../actions/at_checklogin'
 import { AsyncStorage } from 'react-native'
+import { makedirecttion } from '../actions/at_makedirecttion'
 
 class SideMenu extends Component {
 
@@ -23,7 +24,20 @@ class SideMenu extends Component {
   async componentDidMount(){
     let userprofiles = await AsyncStorage.getItem('userProfile')
     let userJSON = JSON.parse(userprofiles)
-    this.setState({profile: userJSON,fullname: userJSON.fullname})
+    this.setState({
+      profile: userJSON,
+      fullname: userJSON.fullname
+    })
+ 
+  }
+
+  async shouldComponentUpdate(){
+ let userprofiles = await AsyncStorage.getItem('userProfile')
+    let userJSON = JSON.parse(userprofiles)
+    this.setState({
+      profile: userJSON,
+      fullname: userJSON.fullname
+    })
  
   }
   navigateToScreen = (route) => () => {
@@ -33,15 +47,17 @@ class SideMenu extends Component {
     this.props.navigation.dispatch(navigateAction);
   }
   clicklogout = () => {
-    this.props.handleChklogin(0)
-    this.props.handleSetName(null)
-    this.props.navigation.navigate("Login")
-    AsyncStorage.setItem('userProfile', null)
+    let keys = ['userProfile', 'accessToken'];
+    AsyncStorage.multiRemove(keys, (err) => {});
+      this.props.handleChklogin(0)
+      this.props.handleSetName(null)
+      this.props.handlemakelocation(null)
+      this.props.navigation.navigate("Login")
   }
+
   render () {
     var  {navigate} = this.props.navigation;
-    const { fullname } = this.state 
-   
+    const { fullname, profile } = this.state 
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -142,6 +158,9 @@ const mapDispatchToProps = dispatch => ({
   },
   handleChklogin: (text) => {
     dispatch(checkloginfacebook(text))
-  }
+  },
+  handlemakelocation: (text) => {
+    dispatch(makedirecttion(text))
+  },
 })
 export default connect(mapStateToProps,mapDispatchToProps)(SideMenu);

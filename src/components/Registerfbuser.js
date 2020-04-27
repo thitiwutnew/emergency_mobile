@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
 import { StyleSheet,Image, StatusBar, TextInput, TouchableHighlight} from 'react-native'
-import { Container, Header, Footer, Label, Input,Icon, Content,Text,Button, View } from 'native-base'
+import { Container, Header, Item, Label, Input,Icon, Content,Text,Button, View } from 'native-base'
 import { Form, Field } from 'react-native-validate-form'
 import InputField from './InputField'
-import InputFieldIdcard from './InputFieldIdcard'
 import InputFieldPassword from './InputFieldPassword'
 import { connect } from 'react-redux';
 import { setUserdata } from '../actions/at_fbregister'
-import user from '../model/user'
-import { Dialog } from 'react-native-simple-dialogs';
 
-class Registeruser extends Component {
+class Registerfbuser extends Component {
 
   constructor() {
     super();
@@ -19,10 +16,7 @@ class Registeruser extends Component {
       errors: [],
       email: '',
       password:'',
-      idcard:'',
       confirmpassword:'',
-      dialogVisible:false,
-      statuscreateprofile:null,
     }
   }
 
@@ -37,34 +31,27 @@ class Registeruser extends Component {
     this.setState({ errors: errors });
   }
 
-  async submitSuccess() {
-    const { email, password, idcard } = this.state
+  submitSuccess() {
+    const { email, password } = this.state
     let dataregister ={
-        email: email,
-        password: password,
-        idcard: idcard,
+      fullname:'',
+      name:'',
+      lastname:'',
+      emailaddress: email,
+      password: password,
+      idcard:'',
+      disease:'',
+      allergy:'',
+      phone:'',
+      address:'',
     }
-    let response = await user.registeraccount(dataregister)
-    if(response.status===200){
-        this.setState({dialogVisible: true,statuscreateprofile:true})
-    }
-    else{
-        this.setState({dialogVisible: true,statuscreateprofile:false})
-    }
+    this.props.handleUserdata(dataregister)
+    this.props.navigation.navigate("registerfbuserdata")
   }
 
   submitFailed() {
-    
+    console.log("Submit Faield!")
   }
-
-  async submitcreateaccount(value){
-    if(value===1){
-      this.props.navigation.navigate("Login")
-    }
-    else{
-      this.props.navigation.navigate("Login")
-    }
-}
 
   render() {
     const required = value => (value ? undefined : 'กรุณา กรอกข้อมุล.')
@@ -105,18 +92,6 @@ class Registeruser extends Component {
                   customStyle={styles.input}
                   placeholder="กรอก อีเมล"
               />
-               <Label style={styles.form}>เลขประจำตัวประชาชน :</Label>
-              <Field
-                  required
-                  secureTextEntry
-                  component={InputFieldIdcard}
-                  validations={[required]}
-                  name="idcard"
-                  value={this.state.idcard}
-                  onChangeText={val => this.setState({ idcard: val })}
-                  customStyle={styles.input}
-                  placeholder="กรอก เลขประจำตัวประชาชน"
-              />
               <Label style={styles.form}>รหัสผ่าน :</Label>
               <Field
                   required
@@ -145,61 +120,21 @@ class Registeruser extends Component {
                 style={styles.btnconfirm}
                 onPress={this.submitForm.bind(this)}
             >
-              <Text style={styles.textbtnconfirm}>สมัครสมาชิก</Text>
+              <Text style={styles.textbtnconfirm}>ถัดไป</Text>
             </Button>
           </Form>
-          {
-            this.state.statuscreateprofile === true ? 
-                <Dialog
-                  style={styles.alert}
-                  title="การแจ้งเตือน"
-                  visible={this.state.dialogVisible}
-                  onTouchOutside={() => this.setState({dialogVisible: false})}
-                >
-                <View>
-                    <Text style={styles.alertbody}>ลงทะเบียนสมาชิก สำเร็จ !!!</Text>
-                  <Footer style={styles.Dialogfooter}>
-                    <Button 
-                          style={styles.btndirect}
-                          onPress={() => {
-                            this.submitcreateaccount(1),
-                            this.setState({dialogVisible: false})
-                          }}
-                      >
-                        <Text>ตกลง</Text>
-                      </Button>
-                  </Footer>
-                </View>
-                </Dialog> : 
-                <Dialog
-                  style={styles.alert}
-                  title="การแจ้งเตือน"
-                  visible={this.state.dialogVisible}
-                  onTouchOutside={() => this.setState({dialogVisible: false})}
-                >
-                  <View>
-                      <Text style={styles.alertbody}>ลงทะเบียนสมาชิก ไม่สำเร็จ !!!</Text>
-                    <Footer style={styles.Dialogfooter}>
-                      <Button 
-                            style={styles.btndirect}
-                            onPress={() => {
-                              this.submitcreateaccount(2),
-                              this.setState({dialogVisible: false})
-                            }}
-                        >
-                          <Text>ตกลง</Text>
-                        </Button>
-                    </Footer>
-                  </View>
-                </Dialog>
-          }
         </Content>
       </Container>
     );
   }
 }
 
-export default connect(null,null)(Registeruser);
+const mapDispatchToProps = dispatch => ({
+  handleUserdata: (text) => {
+    dispatch(setUserdata(text))
+  }
+})
+export default connect(null,mapDispatchToProps)(Registerfbuser);
 
 
 const styles = StyleSheet.create({
@@ -244,12 +179,10 @@ const styles = StyleSheet.create({
     fontWeight:"900",
   },
   btnconfirm:{
+    paddingTop:-50,
     alignSelf:'center',
-    paddingTop:"4%",
-    marginTop:"10%",
+    marginTop:"15%",
     width:"50%",
-    marginBottom:40,
-    borderRadius:7,
   },
   texterror:{
     color:"red",
@@ -265,25 +198,5 @@ const styles = StyleSheet.create({
      borderColor:"#2574a9",
      borderWidth:2,
      padding:7,
-  },
-  alertbody:{
-    alignSelf:'center',
-    justifyContent:'center',
-    fontSize:18,
-    fontWeight:"bold",
-  },
-  Dialogfooter:{
-   width:"60%",
-   marginTop:20,
-   padding:5,
-   backgroundColor:'#4285f4',
-   alignSelf: "center",
-   },
-   btndirect:{
-     padding:5,
-     justifyContent: "center",
-     backgroundColor:'#4285f4',
-     width:"100%",
-     fontSize:18,
-   },
+  }
 });

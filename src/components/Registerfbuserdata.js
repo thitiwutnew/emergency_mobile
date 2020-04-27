@@ -12,7 +12,7 @@ import { Dialog } from 'react-native-simple-dialogs';
 import { checkloginfacebook } from '../actions/at_checklogin'
 import { AsyncStorage } from 'react-native'
 
-class Registeruserdata extends Component {
+class Registerfb extends Component {
   constructor() {
     super();
 
@@ -30,7 +30,6 @@ class Registeruserdata extends Component {
     }
   }
 
-
   submitForm() {
     let submitResults = this.myForm.validate()
 
@@ -47,22 +46,21 @@ class Registeruserdata extends Component {
     if(data.password==="" || data.emailaddress ===""){
       this.props.navigation.navigate("Login")
     }
-    const iduser = this.props.datauser
-    const { name, lastname, tel, disease, allergy, address } = this.state
+    const { name, lastname, idcard, tel, disease, allergy, address } = this.state
     let profile = {
       fullname: name+' '+lastname,
       name: name,
       lastname: lastname,
       emailaddress: data.emailaddress,
       password: data.password,
-      idcard: iduser.profile.idcard,
+      idcard: idcard,
       disease: disease,
       allergy: allergy,
       phone: tel,
       address:address,
     }
-    let response = await user.updateprofile(profile, iduser.facebookid)
-    console.log(response)
+    const idfacebook = this.props.idfacebook.facebookid
+    let response = await user.updateprofile(profile, idfacebook)
     if(response.status==200){
       AsyncStorage.setItem('userProfile', JSON.stringify(profile), () => {
         this.props.handleUserdata(profile)
@@ -188,6 +186,18 @@ class Registeruserdata extends Component {
                   customStyle={styles.input}
                   placeholder="กรอก นามสกุล"
               />
+              <Label style={styles.form}>เลขประจำตัวประชาชน :</Label>
+              <Field
+                  required
+                  secureTextEntry={true}
+                  component={InputFieldIdcard}
+                  validations={[required]}
+                  name="idcard"
+                  value={this.state.idcard}
+                  onChangeText={val => this.setState({ idcard: val })}
+                  customStyle={styles.input}
+                  placeholder="กรอก เลขประจำตัวประชาชน"
+              />
                <Label style={styles.form}>ที่อยู่ปัจจุบัน :</Label>
               <Field
                   required
@@ -251,7 +261,7 @@ class Registeruserdata extends Component {
 
 const mapStateToProps = (state) =>({
   dataprofile : state.Userdata.userdata,
-  datauser : state.checklogin.chklogin,
+  idfacebook : state.checklogin.chklogin,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -262,7 +272,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(checkloginfacebook(text))
   }
 })
-export default connect(mapStateToProps,mapDispatchToProps)(Registeruserdata);
+export default connect(mapStateToProps,mapDispatchToProps)(Registerfb);
 
 const styles = StyleSheet.create({
   container: {
