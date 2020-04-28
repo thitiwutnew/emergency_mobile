@@ -4,6 +4,9 @@ import { Container, Header, Left, Body, Right, Button,Icon, Content,Thumbnail,Te
 import Icons from 'react-native-vector-icons/FontAwesome';
 import MenuDrawer from 'react-native-side-drawer'
 import { connect } from 'react-redux';
+import { makedirecttion } from '../actions/at_makedirecttion'
+import { directtion } from '../actions/at_directtion'
+import MapViewDirections from 'react-native-maps-directions'
 
 class Aed extends Component {
     constructor(props) {
@@ -14,47 +17,66 @@ class Aed extends Component {
       }
     componentDidMount() {
         let data =[];
+        const latlngs = this.props.Locationcurrent
+        const latitude = latlngs[0].latlng.latitude
+        const longitude = latlngs[0].latlng.longitude
+
         this.props.aedlocations.map((item) => {
-            console.log(item)
-            data.push(
-                <ListItem thumbnail onPress={() => {this.locationdirect(item)}}>
-                <Left>
-                    <Thumbnail square style={styles.imgicon} source={require('../resource/Images/AED.png')} />
-                </Left>
-                <Body>
-                    <Text>{item.title}</Text>
-                    <Text note numberOfLines={1}>{item.description}</Text>
-                </Body>
-                <Right style={styles.timeCol}>
-                    <Text style={styles.textSmall}>1646456</Text>
-                </Right>
-            </ListItem> 
-            )
-        })
-        this.setState({
-            listdata: data
+
+          let timedirect = null, distance=null
+          const latitudes = item.latlng.latitude
+          const longitudes = item.latlng.longitude
+          let latlng= {
+            latitude: latitudes,
+            longitude: longitudes
+          }
+          let origin ={
+            latitude: latitude,
+            longitude: longitude
+          }
+            fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${latitude},${longitude}&destinations=${latitudes},${longitudes}&departure_time=now&language=th&key=AIzaSyCaZfz6Roxtd39P-gDKwTy6VZ-DJUhjEiY`)
+            .then(response => response.json())
+            .then((responseJson)=> {
+
+              timedirect = responseJson.rows[0].elements[0].duration_in_traffic.text,
+              distance = responseJson.rows[0].elements[0].distance.text
+              
+              data.push(
+                <ListItem thumbnail onPress={() => {this.locationdirect(responseJson,item.title,latlng,origin)}}>
+                  <Left>
+                      <Thumbnail square style={styles.imgicon} source={require('../resource/Images/AED.png')} />
+                  </Left>
+                  <Body>
+                      <Text style={{ fontSize:18 }}>{item.title}</Text>
+                      <Text note numberOfLines={1}>{item.description}</Text>
+                  </Body>
+                  <Right style={styles.timeCol}>
+                  <Text style={styles.textbig}>{timedirect}</Text>
+                  <Text style={styles.textSmall}>{distance}</Text>
+                  </Right>
+                </ListItem> 
+                )
+                this.setState({
+                  listdata: data
+              })
+            })
+            .catch()
         })
     }
 
-    locationdirect = (value) => {
+    locationdirect = (value,title,latlng,origin) => {
+        let direct =(<MapViewDirections
+        origin={origin}
+        destination={latlng}
+        strokeWidth={5}
+        resetOnChange={true}
+        strokeColor="#4186ff"
+        apikey={'AIzaSyCaZfz6Roxtd39P-gDKwTy6VZ-DJUhjEiY'}
+      />)
+        this.props.handlemakelocation({"title" : title,value})
+        this.props.handledirecttion(direct)
+        this.props.navigation.navigate("Home")
 
-        const {latitude, longitude} = this.state
-        let latitudes = value.latlng.latitude
-        let longitudes = value.latlng.longitude
-        const origin = { latitude:latitude, longitude: longitude }
-        const destination = { latitude: latitudes,longitude: longitudes }
-    
-    
-        fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${latitude},${longitude}&destinations=${latitudes},${longitudes}&departure_time=now&language=th&key=AIzaSyCaZfz6Roxtd39P-gDKwTy6VZ-DJUhjEiY`)
-        .then(response => response.json())
-        .then((responseJson)=> {
-          
-          this.setState({
-            dataSource: {"title" : value.title,responseJson}
-          })
-          this.props.handlemakelocation(this.state.dataSource)
-        })
-        .catch(error=>console.log(error))
       }
 
   render() {
@@ -91,7 +113,9 @@ class Aed extends Component {
         </Header>
         <Content style={styles.container}>
             <View>
-            {listdata}
+            <List>
+              { listdata }
+            </List>
             </View>
         </Content>
       </Container>
@@ -102,20 +126,18 @@ class Aed extends Component {
 
 const mapStateToProps = (state) => ({
     aedlocations: state.aedlocation.aedlocation,
+    Locationcurrent: state.Location.Location,
   })
-//   const mapDispatchToProps = (dispatch) => ({
-//     handlemakelocation: (text) => {
-//       dispatch(makedirecttion(text))
-//     },
-//     handleLocation: (text) => {
-//       dispatch(setlocation(text))
-//     },
-//     handleaedlocation: (text) => {
-//       dispatch(aedlocation(text))
-//     }
-//   })
+  const mapDispatchToProps = (dispatch) => ({
+    handlemakelocation: (text) => {
+      dispatch(makedirecttion(text))
+    },
+    handledirecttion: (text) => {
+      dispatch(directtion(text))
+    }
+  })
   
-export default connect(mapStateToProps, null)(Aed)
+export default connect(mapStateToProps, mapDispatchToProps)(Aed)
 
 const styles = StyleSheet.create({
   container: {
@@ -163,6 +185,9 @@ const styles = StyleSheet.create({
   textSmall: {
     color: "black",
     fontSize: 15,
-    
+  },
+  textbig: {
+    color: "green",
+    fontSize: 18,
   },
 });

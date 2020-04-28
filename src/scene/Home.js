@@ -28,7 +28,6 @@ class Home extends Component {
         )
       );
     }
-
     return (
       <Container>
         <StatusBar hidden = {true}/>

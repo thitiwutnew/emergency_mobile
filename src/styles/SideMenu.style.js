@@ -18,6 +18,7 @@ export default {
     navSectionStyle: {
       backgroundColor: '#49506a',
       marginTop: 15,
+      
     },
     sectionHeadingStyle: {
       paddingVertical: 10,
@@ -28,8 +29,12 @@ export default {
       backgroundColor: 'lightgrey'
     },
     image: {
-      marginTop: 45,
+      marginTop: 40,
       alignSelf: 'center',
-      
-    }
+    },
+    hairline: {
+      borderBottomWidth: 1,
+      borderColor:"#FFF",
+      marginBottom:10,
+    },
   };

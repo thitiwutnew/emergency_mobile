@@ -13,7 +13,7 @@ const LeftMenu = createDrawerNavigator(
     },
     {
         initialRouteName: "Login",
-        drawerWidth : Widthmenu*0.60,
+        drawerWidth : Widthmenu*0.55,
         drawerPosition: 'left',
         contentOptions: {
             activeTintColor: "#000"

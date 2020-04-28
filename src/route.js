@@ -14,6 +14,7 @@ import registerfbuser from './components/Registerfbuser'
 import Aed from './components/Aed'
 import registeruser from './components/Registeruser'
 import Registeruserdata from './components/Registeruserdata'
+import profile from './scene/profile'
 
 const navigation = createStackNavigator({
   Login: { screen: Login },
@@ -29,6 +30,7 @@ const navigation = createStackNavigator({
   registeruser: { screen: registeruser },
   Aed: { screen: Aed },
   Registeruserdata: { screen: Registeruserdata },
+  profile: { screen: profile },
 
 }, {
   headerMode: 'none',

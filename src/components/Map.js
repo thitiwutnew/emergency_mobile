@@ -9,6 +9,8 @@ import { setlocation } from '../actions/at_location'
 import { Dialog } from 'react-native-simple-dialogs';
 import { View } from 'react-native-animatable'
 import { aedlocation } from '../actions/at_aedlocation'
+import { directtion } from '../actions/at_directtion'
+
 class Map extends Component {
   constructor(props) {
     super(props)
@@ -27,6 +29,7 @@ class Map extends Component {
   }
 
   componentDidMount() {
+   
           navigator.geolocation.getCurrentPosition(
             (position) => {
               let latlng ={
@@ -88,36 +91,38 @@ class Map extends Component {
             ],
           })
   }
-  locationdirect = (value) => {
-    const {latitude, longitude} = this.state
-    let latitudes = value.latlng.latitude
-    let longitudes = value.latlng.longitude
-    const origin = { latitude:latitude, longitude: longitude }
-    const destination = { latitude: latitudes,longitude: longitudes }
-
-
-    fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${latitude},${longitude}&destinations=${latitudes},${longitudes}&departure_time=now&language=th&key=AIzaSyCaZfz6Roxtd39P-gDKwTy6VZ-DJUhjEiY`)
-    .then(response => response.json())
-    .then((responseJson)=> {
-      
-      this.setState({
-        dataSource: {"title" : value.title,responseJson}
+   locationdirect = (value) => {
+    if(value.latlng.latitude !=null || value.latlng.latitude !=''){
+      const {latitude, longitude} = this.state
+      let latitudes = value.latlng.latitude
+      let longitudes = value.latlng.longitude
+      const origin = { latitude:latitude, longitude: longitude }
+      const destination = { latitude: latitudes,longitude: longitudes }
+  
+  
+      fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${latitude},${longitude}&destinations=${latitudes},${longitudes}&departure_time=now&language=th&key=AIzaSyCaZfz6Roxtd39P-gDKwTy6VZ-DJUhjEiY`)
+      .then(response => response.json())
+      .then((responseJson)=> {
+        
+        this.setState({
+          dataSource: {"title" : value.title,responseJson}
+        })
+        this.props.handlemakelocation(this.state.dataSource)
       })
-      this.props.handlemakelocation(this.state.dataSource)
-    })
-    .catch(error=>console.log(error))
-    this.setState({
-      makedirect: (
-        <MapViewDirections
-          origin={origin}
-          destination={destination}
-          strokeWidth={5}
-          resetOnChange={true}
-          strokeColor="#4186ff"
-          apikey={'AIzaSyCaZfz6Roxtd39P-gDKwTy6VZ-DJUhjEiY'}
-        />
-      ),
-    })
+      .catch(error=>console.log(error))
+      this.setState({
+        makedirect: (
+          <MapViewDirections
+            origin={origin}
+            destination={destination}
+            strokeWidth={5}
+            resetOnChange={true}
+            strokeColor="#4186ff"
+            apikey={'AIzaSyCaZfz6Roxtd39P-gDKwTy6VZ-DJUhjEiY'}
+          />
+        ),
+      })
+    }
   }
   resetdirecttion = () => {
     this.setState({
@@ -125,12 +130,18 @@ class Map extends Component {
       dialogVisible: false
     })
     this.props.handlemakelocation(null)
+    this.props.handledirecttion(null)
   }
+  
   render() {
+    
     const { latitude, longitude,locations,datamakedirect, makedirect, markers, markerlocations } = this.state
     var mapDirect = makedirect
     var data =datamakedirect
     data !=null ? data = data.title:null
+    if(this.props.directtions != null ){
+      mapDirect = this.props.directtions
+    }
     if(mapDirect==null){
       this.props.handlemakelocation(null)
     }
@@ -189,18 +200,16 @@ class Map extends Component {
             return (
               <Marker
                 key={i}
-                title={marker.title}
+               // title={marker.title}
                 coordinate={marker.latlng}
-                description={marker.description}
+                //description={marker.description}
                 image={require('../resource/Images/AED.png')}
                 ref={(ref) => {
                   this.marker = ref
                 }}
                 onPress={() => this.setState({dialogVisible: true,datamakedirect:marker})}
               >
-                <Callout>
-                  <Text>{marker.title}</Text>
-                </Callout>
+               
               </Marker>
             )
           })
@@ -218,6 +227,7 @@ class Map extends Component {
 const mapStateToProps = (state) => ({
   makedirectionvalue: state.makedirection.makelocation,
   Locationcurrent: state.Location.Location,
+  directtions: state.direction.makedirectlocation,
 })
 const mapDispatchToProps = (dispatch) => ({
   handlemakelocation: (text) => {
@@ -228,6 +238,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   handleaedlocation: (text) => {
     dispatch(aedlocation(text))
+  },
+  handledirecttion: (text) => {
+    dispatch(directtion(text))
   }
 })
 

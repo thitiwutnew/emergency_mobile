@@ -10,6 +10,7 @@ import { setUsername } from '../actions/at_fblogin'
 import { checkloginfacebook } from '../actions/at_checklogin'
 import { AsyncStorage } from 'react-native'
 import { makedirecttion } from '../actions/at_makedirecttion'
+import { directtion } from '../actions/at_directtion'
 
 class SideMenu extends Component {
 
@@ -52,6 +53,7 @@ class SideMenu extends Component {
       this.props.handleChklogin(0)
       this.props.handleSetName(null)
       this.props.handlemakelocation(null)
+      this.props.handledirecttion(null)
       this.props.navigation.navigate("Login")
   }
 
@@ -79,6 +81,16 @@ class SideMenu extends Component {
             </CardItem>
             </Card>
             <View style={styles.navSectionStyle}>
+              <Button transparent  onPress={() => navigate("profile")} >
+              <Text style={styles.navItemStyle} >
+              <Icon 
+                name="id-card" 
+                type="FontAwesome"
+                style={{fontSize:30,marginLeft: '13%',color:'#fff'}}
+              />   Profile
+              </Text>
+              </Button>
+              <Text style={styles.hairline}></Text>
               <Button transparent  onPress={() => navigate("Firstaid")} >
               <Text style={styles.navItemStyle} >
               <Icon 
@@ -126,6 +138,7 @@ class SideMenu extends Component {
               />   History
               </Text>
               </Button>
+              <Text style={styles.hairline}></Text>
               <Button transparent
                   onPress={this.clicklogout}
               >
@@ -162,5 +175,8 @@ const mapDispatchToProps = dispatch => ({
   handlemakelocation: (text) => {
     dispatch(makedirecttion(text))
   },
+  handledirecttion: (text) => {
+    dispatch(directtion(text))
+  }
 })
 export default connect(mapStateToProps,mapDispatchToProps)(SideMenu);

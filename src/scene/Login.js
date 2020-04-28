@@ -50,7 +50,6 @@ class Login extends Component {
               password:password
             }
             let authToken = await auth.userAuth(data)
-            console.log(authToken)
             let mustfilled = `${_.get(authToken, 'data.mustfilled')}`
             if(authToken.data.status === 401){
               this.setState({ error: authToken.data.validateMessage})
@@ -72,6 +71,11 @@ class Login extends Component {
                       password: null,
                       error: null
                     })
+                  this.props.handleChklogin({
+                      mustfilled:mustfilled,
+                      facebookid:authToken.data.idAccount,
+                      profile :authToken.data.profile[0]
+                  })
                   this.props.navigation.navigate("Home")
                 })
               }
