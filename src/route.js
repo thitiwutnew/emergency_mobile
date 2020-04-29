@@ -9,7 +9,6 @@ import facebooklogin from './components/FacebookRegister'
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Cpr from './scene/Cpr'
-import registerfbuserdata from './components/Registerfbuserdata'
 import registerfbuser from './components/Registerfbuser'
 import Aed from './components/Aed'
 import registeruser from './components/Registeruser'
@@ -25,7 +24,6 @@ const navigation = createStackNavigator({
   Firstaid: { screen: Firstaid },
   facebooklogin: { screen: facebooklogin },
   Cpr: { screen: Cpr },
-  registerfbuserdata: { screen: registerfbuserdata},
   registerfbuser: { screen: registerfbuser },
   registeruser: { screen: registeruser },
   Aed: { screen: Aed },

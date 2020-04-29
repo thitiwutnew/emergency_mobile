@@ -93,12 +93,12 @@ class Map extends Component {
   }
    locationdirect = (value) => {
     if(value.latlng.latitude !=null || value.latlng.latitude !=''){
+
       const {latitude, longitude} = this.state
       let latitudes = value.latlng.latitude
       let longitudes = value.latlng.longitude
       const origin = { latitude:latitude, longitude: longitude }
       const destination = { latitude: latitudes,longitude: longitudes }
-  
   
       fetch(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${latitude},${longitude}&destinations=${latitudes},${longitudes}&departure_time=now&language=th&key=AIzaSyCaZfz6Roxtd39P-gDKwTy6VZ-DJUhjEiY`)
       .then(response => response.json())
@@ -109,7 +109,7 @@ class Map extends Component {
         })
         this.props.handlemakelocation(this.state.dataSource)
       })
-      .catch(error=>console.log(error))
+      .catch()
       this.setState({
         makedirect: (
           <MapViewDirections
@@ -136,16 +136,23 @@ class Map extends Component {
   render() {
     
     const { latitude, longitude,locations,datamakedirect, makedirect, markers, markerlocations } = this.state
+
     var mapDirect = makedirect
     var data =datamakedirect
     data !=null ? data = data.title:null
-    if(this.props.directtions != null ){
-      mapDirect = this.props.directtions
+
+    if(this.props.directtions != null && this.props.directtions != ''){
+     
+        mapDirect = this.props.directtions
+
     }
     if(mapDirect==null){
+
       this.props.handlemakelocation(null)
+
     }
     this.props.handleaedlocation(markers)
+
     return (
       markerlocations != null ?
       <View>
