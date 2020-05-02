@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet,Image, StatusBar} from 'react-native';
-import { Container, Header, Footer, Label, Input,Icon, Content,Text,Button, View } from 'native-base';
+import { Container, Header, Textarea, Label, Input,Icon, Content,Text,Button, View, Thumbnail, Item } from 'native-base';
 import { Form, Field } from 'react-native-validate-form'
 import InputField from '../components/InputField'
 import InputFieldIdcard from '../components/InputFieldIdcard'
@@ -48,64 +48,6 @@ class profile extends Component {
  
   }
 
-  submitForm() {
-    let submitResults = this.myForm.validate()
-
-    let errors = [];
-
-    submitResults.forEach(item => {
-      errors.push({ field: item.fieldName, error: item.error })
-    });
-    this.setState({ errors: errors });
-  }
-
-  async submitSuccess() {
-    const data = this.props.dataprofile
-    if(data.password==="" || data.emailaddress ===""){
-      this.props.navigation.navigate("Login")
-    }
-    const { name, lastname, idcard, tel, disease, allergy, address,id } = this.state
-    let profile = {
-      _id: id,
-      fullname: name+' '+lastname,
-      name: name,
-      lastname: lastname,
-      idcard: idcard,
-      disease: disease,
-      allergy: allergy,
-      phone: tel,
-      address:address,
-    }
-    const iduser = this.props.idfacebook
-    let response = await user.updateprofile(profile, iduser.facebookid)
-    if(response.status==200){
-      AsyncStorage.setItem('userProfile', JSON.stringify(profile), () => {
-        this.props.handleUserdata(profile)
-        this.setState({dialogVisible: true,statuscreateprofile:true})
-      })
-    }
-    else{
-      AsyncStorage.setItem('userProfile', JSON.stringify(""), () => {
-        this.props.handleUserdata(profile)
-        this.setState({dialogVisible: true,statuscreateprofile:false})
-      })
-    }
-  }
-
-  submitFailed() {
-  }
-
-  async submitcreateprofile(value){
-        if(value===1){
-          this.props.navigation.navigate("Home")
-        }
-        else{
-          this.props.navigation.navigate("Login")
-          this.props.handleChklogin(0)
-        }
-  }
-  
-
   render() {
     var  {navigate} = this.props.navigation;
     const required = value => (value ? undefined : 'กรุณา กรอกข้อมุล.')
@@ -115,161 +57,88 @@ class profile extends Component {
       <Container>
           <StatusBar hidden = {true}/>
         <Header style={styles.header}>
-          <Text style={styles.headertext}>แก้ไขข้อมูลสมาชิก</Text>
+          <Text style={styles.headertext}>ข้อมูลสมาชิก</Text>
         </Header>
         <Content style={styles.container}>
+          <Thumbnail square large style={styles.imagepf} source={require('../resource/Images/avatar.png')} />
           <View style={styles.textheader}> 
             <Icon 
               name="address-book" 
               type="FontAwesome"
-              style={{fontSize:25,color:'#FFF'}}
+              style={{fontSize:20,color:'#FFF'}}
             >
               <Text style={{fontSize:18,color:'#FFF'}}>  ข้อมูลส่วนตัว</Text>
             </Icon>
           </View>
-          {
-            this.state.statuscreateprofile === true ? 
-                <Dialog
-                  style={styles.alert}
-                  title="การแจ้งเตือน"
-                  visible={this.state.dialogVisible}
-                  onTouchOutside={() => this.setState({dialogVisible: false})}
-                >
-                <View>
-                    <Text style={styles.alertbody}>ลงทะเบียนสมาชิก สำเร็จ !!!</Text>
-                  <Footer style={styles.Dialogfooter}>
-                    <Button 
-                          style={styles.btndirect}
-                          onPress={() => {
-                            this.submitcreateprofile(1),
-                            this.setState({dialogVisible: false})
-                          }}
-                      >
-                        <Text>ตกลง</Text>
-                      </Button>
-                  </Footer>
-                </View>
-                </Dialog> : 
-                <Dialog
-                  style={styles.alert}
-                  title="การแจ้งเตือน"
-                  visible={this.state.dialogVisible}
-                  onTouchOutside={() => this.setState({dialogVisible: false})}
-                >
-                  <View>
-                      <Text style={styles.alertbody}>ลงทะเบียนสมาชิก ไม่สำเร็จ !!!</Text>
-                    <Footer style={styles.Dialogfooter}>
-                      <Button 
-                            style={styles.btndirect}
-                            onPress={() => {
-                              this.submitcreateprofile(2),
-                              this.setState({dialogVisible: false})
-                            }}
-                        >
-                          <Text>ตกลง</Text>
-                        </Button>
-                    </Footer>
-                  </View>
-                </Dialog>
-          }
           <Form  
             style={styles.form}
-            ref={(ref) => this.myForm = ref}
-            validate={true}
-            submit={this.submitSuccess.bind(this)}
-            failed={this.submitFailed.bind(this)}
-            errors={this.state.errors}
           >
-              <Label style={styles.form}>ชื่อ :</Label>
-              <Field
-                  required
-                  component={InputField}
-                  validations={[required]}
-                  name="name"
-                  value={this.state.name}
-                  onChangeText={val => this.setState({ name: val })}
-                  customStyle={styles.input}
-                  placeholder="กรอก ชื่อ"
-              />
-              <Label style={styles.form}>นามสกุล :</Label>
-              <Field
-                  required
-                  secureTextEntry
-                  component={InputField}
-                  validations={[required]}
-                  name="lastname"
-                  value={this.state.lastname}
-                  onChangeText={val => this.setState({ lastname: val })}
-                  customStyle={styles.input}
-                  placeholder="กรอก นามสกุล"
-              />
-              <Label style={styles.form}>เลขประจำตัวประชาชน :</Label>
-              <Field
-                  required
-                  secureTextEntry={true}
-                  component={InputFieldIdcard}
-                  validations={[required]}
-                  name="idcard"
-                  value={this.state.idcard}
-                  onChangeText={val => this.setState({ idcard: val })}
-                  customStyle={styles.input}
-                  placeholder="กรอก เลขประจำตัวประชาชน"
-              />
-               <Label style={styles.form}>ที่อยู่ปัจจุบัน :</Label>
-              <Field
-                  required
-                  secureTextEntry={true}
-                  component={InputField}
-                  validations={[required]}
-                  name="address"
-                  value={this.state.address}
-                  onChangeText={val => this.setState({ address: val })}
-                  customStyle={styles.input}
-                  placeholder="กรอก ที่อยู่ปัจจุบัน"
-              />
-               <Label style={styles.form}>เบอร์โทรศัพท์ :</Label>
-              <Field
-                  required
-                  secureTextEntry={true}
-                  component={InputFieldTel}
-                  validations={[required]}
-                  name="tel"
-                  value={this.state.tel}
-                  onChangeText={val => this.setState({ tel: val })}
-                  customStyle={styles.input}
-                  placeholder="กรอก เบอร์โทรศัพท์"
-              />
-               <Label style={styles.form}>โรคประจำตัว :</Label>
-              <Field
-                  required
-                  secureTextEntry={true}
-                  component={InputField}
-                  validations={[required]}
-                  name="disease"
-                  value={this.state.disease}
-                  onChangeText={val => this.setState({ disease: val })}
-                  customStyle={styles.input}
-                  placeholder="กรอก โรคประจำตัว"
-              />
-               <Label style={styles.form}>การแพ้ยา :</Label>
-              <Field
-                  required
-                  secureTextEntry={true}
-                  component={InputField}
-                  validations={[required]}
-                  name="allergy"
-                  value={this.state.allergy}
-                  onChangeText={val => this.setState({ allergy: val })}
-                  customStyle={styles.input}
-                  placeholder="กรอก การแพ้ยา"
-              />
-            <Button block success 
-                style={styles.btnconfirm}
-                onPress={this.submitForm.bind(this)}
-            >
-              <Text style={styles.textbtnconfirm}>บันทึกข้อมูล</Text>
-            </Button>
+              <Item disabled>
+                <Icon 
+                  name="id-card" 
+                  type="FontAwesome"
+                  style={{fontSize:20,color:'#000'}}
+                />
+                <Input disabled >ชื่อ : {this.state.name}     นามสกุล : {this.state.lastname}</Input>
+              </Item>
+              <Item disabled>
+                <Icon 
+                  name="map-marker" 
+                  type="FontAwesome"
+                  style={{fontSize:30,color:'#000',marginLeft:4}}
+                ></Icon>
+                 <Input disabled >ที่อยู่ปัจจุบัน </Input>
+              </Item>
+              <Item disabled>
+                 <Input disabled > {this.state.address}   </Input>
+              </Item>
+              <Item disabled>
+                <Icon 
+                  name="id-badge" 
+                  type="FontAwesome"
+                  style={{fontSize:20,color:'#000',marginLeft:5}}
+                />
+                <Input disabled >เลขประจำตัวประชาชน : {this.state.idcard}   </Input>
+              </Item>
+              <Item disabled>
+                <Icon 
+                  name="phone-square" 
+                  type="FontAwesome"
+                  style={{fontSize:20,color:'#000',marginLeft:2}}
+                />
+                <Input disabled >เบอร์โทรศัพท์ : {this.state.tel}   </Input>
+              </Item>
+              <Item disabled>
+                <Icon 
+                  name="heartbeat" 
+                  type="FontAwesome"
+                  style={{fontSize:20,color:'#000',marginLeft:1}}
+                />
+                <Input disabled >โรคประจำตัว : {this.state.disease}   </Input>
+              </Item>
+              <Item disabled>
+                <Icon 
+                  name="bolt" 
+                  type="FontAwesome"
+                  style={{fontSize:20,color:'#000',marginLeft:7}}
+                />
+                <Input disabled >การแพ้ยา : {this.state.allergy}   </Input>
+              </Item>
           </Form>
+          <View style={{flexDirection: "row",alignSelf:'center',marginTop:'10%',marginBottom:'10%'}}>
+            <Button  
+              style={{marginRight:10,borderRadius:7,}}
+              onPress={() => this.props.navigation.navigate("editprofile")}
+            >
+              <Text style={styles.textbtnconfirm}>แก้ไขข้อมูล</Text>
+            </Button>
+            <Button light 
+              style={{borderRadius:7,}}
+              onPress={() => this.props.navigation.navigate("Home")}
+            >
+              <Text style={styles.textbtnconfirm}>ย้อนกลับ</Text>
+            </Button>
+          </View>
         </Content>
       </Container>
     );
@@ -310,10 +179,10 @@ const styles = StyleSheet.create({
   textheader:{
     marginTop:"2%",
     marginLeft:"3%",
-    width:"40%",
+    width:"36%",
     color:"#FFF",
-    padding:10,
-    fontSize:20,
+    padding:6,
+    fontSize:18,
     backgroundColor:"#2574a9",
     fontWeight:"900",
     borderColor:"#2574a9",
@@ -321,21 +190,29 @@ const styles = StyleSheet.create({
     borderRadius:10,
   },
   form:{
-    marginTop:10,
+    marginTop:20,
     color:"#000",
     fontSize:18,
-    width:"90%",
-    marginLeft:"5%"
+    width:"92%",
+    marginLeft:"4%",
+    borderWidth:1,
+    padding:5,
+    borderRadius:7,
   },
   textbtnconfirm:{
     fontSize:18,
     fontWeight:"900",
   },
   btnconfirm:{
-    alignSelf:'center',
     paddingTop:"6%",
     marginTop:"10%",
-    width:"50%",
+    width:"40%",
+    borderRadius:7,
+  },
+  btnback:{
+    alignSelf:'center',
+    paddingTop:"6%",
+    width:"40%",
     marginBottom:40,
     borderRadius:7,
   },
@@ -343,7 +220,7 @@ const styles = StyleSheet.create({
     width:"90%",
     fontSize:15,
     marginLeft:"5%",
-    marginTop:5,
+    marginTop:0,
     borderRadius:7,
     borderColor:"#2574a9",
     borderWidth:2,
@@ -373,4 +250,9 @@ const styles = StyleSheet.create({
     width:"100%",
     fontSize:18,
   },
+  imagepf:{
+    marginTop:'7%',
+    alignSelf:'center',
+    marginBottom:'5%',
+  }
 });
