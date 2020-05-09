@@ -65,7 +65,7 @@ class FacebookLogin extends Component {
 
   render() {
     return (
-      <Button transparent onPress={this.facebookLogin.bind(this)} ><Icon name="facebook-square" type="FontAwesome" style={{ color: '#0d8bf0', fontSize: 40, }} /></Button>
+      <Button transparent onPress={this.facebookLogin.bind(this)} ><Icon name="facebook-square" type="FontAwesome" style={{ color: '#0d8bf0', fontSize: Platform.OS === 'ios' ? 35 : 40 }} /></Button>
     );
   }
 }

@@ -9,6 +9,7 @@ import { setlocation } from '../actions/at_location'
 import auth from '../model/auth'
 import _ from 'lodash'
 import { AsyncStorage } from 'react-native'
+import Home from '../route';
 
 class Login extends Component {
   constructor(props) {
@@ -60,6 +61,11 @@ class Login extends Component {
                   mustfilled:mustfilled,
                   facebookid:authToken.data.idAccount,
                   profile :authToken.data.profile[0]
+                })
+                this.setState({ 
+                  email:null,
+                  password: null,
+                  error: null
                 })
                 this.props.handleLocation(this.state.locations)
                 this.props.navigation.navigate("Registeruserdata")
@@ -131,15 +137,16 @@ class Login extends Component {
                         style={styles.contentbtn}>
                         <Text>   เข้าสู่ระบบ   </Text>
                     </Button>
-                   <Text style={styles.hairline}>────────  หรือ  ────────</Text>
+                       <Text style={styles.hairline}>────────  หรือ  ────────</Text>
                     <FacebookLogin/>
                     <Button transparent style={styles.contentbtnforget}>
                         <Text style={{fontSize:14,color:'#fff'}}>ลืมรหัสผ่าน</Text>
                     </Button>
                     <View style={styles.view}>
-                        <Text style={{fontSize:15,color:'#fff',marginBottom:5}}>ลงทะเบียน สมาชิกใหม่</Text>
+                        <Text style={styles.textregister}>ลงทะเบียนสมาชิก</Text>
                         <Button transparent onPress={this.Userregister} >
                           <Image  
+                            style={{ color: '#0d8bf0', width: Platform.OS === 'ios' ? 35 : 40 }}
                             source={require('../resource/Images/Iconregister.png')} 
                           />
                           {btnfbregis}
@@ -186,10 +193,11 @@ const styles = StyleSheet.create({
   },
   imagelogo:{
     display:'flex',
-    margin:"10%",
+    marginTop: Platform.OS === 'ios' ? "25%" : "10%",
     alignSelf:'center'
   },
   contentform :{
+    marginTop: Platform.OS === 'ios' ? "15%" : "10%",
     alignSelf:'center',
     alignItems:'center',
     width:'80%',
@@ -202,22 +210,19 @@ const styles = StyleSheet.create({
       display:'flex',
   },
   view:{
-      flex:1,
-      marginTop:"15%" ,
+      flex:0,
+      marginTop: Platform.OS === 'ios' ? "25%" : "15%",
       alignItems:'center'
   },
   hairline: {
-    marginTop:10,
-    padding:10,
-    fontWeight:"900",
-    fontSize:20,
+    marginTop:Platform.OS === 'ios' ? "10%" : "7%",
     color:"#FFF",
+    borderColor:"#FFF",
+    marginBottom: Platform.OS === 'ios' ? "7%" : "5%",
   },
-  btnfacebook: {
-    marginTop:10,
-    justifyContent:"center",
-    borderRadius:7,
-    backgroundColor:"#0d8bf0",
-    width:"75%",
+  textregister: {
+    fontSize:15,
+    color:'#fff',
+    // marginBottom:5
   },
 });

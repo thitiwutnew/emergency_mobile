@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet,Image, StatusBar} from 'react-native';
-import { Container, Header, Footer, Label, Input,Icon, Content,Text,Button, View, Thumbnail } from 'native-base';
+import { Container, Header, Footer, Label, Input,Icon, Content,Text,Button, View, Thumbnail, Left, Body } from 'native-base';
 import { Form, Field } from 'react-native-validate-form'
 import InputField from '../components/InputField'
 import InputFieldIdcard from '../components/InputFieldIdcard'
@@ -115,7 +115,30 @@ class editprofile extends Component {
       <Container>
           <StatusBar hidden = {true}/>
         <Header style={styles.header}>
-          <Text style={styles.headertext}>แก้ไขข้อมูลสมาชิก</Text>
+        <Left style={{marginLeft:Platform.OS === 'ios' ? 20 : 0,}}>
+            {
+                Platform.OS === 'ios' ?  <Button transparent 
+                onPress={() => navigate("profile")}
+              >
+                <Icon 
+                  name='ios-arrow-back' 
+                  type="Ionicons"
+                  style={{color:'#fff'}} 
+              />
+              </Button> :  <Button transparent 
+              onPress={() => navigate("profile")}
+            >
+              <Icon 
+                name='md-arrow-back' 
+                type="Ionicons"
+                style={{color:'#fff'}} 
+            />
+            </Button> 
+            }
+          </Left>
+          <Body>
+            <Text style={styles.headertext}>แก้ไขข้อมูลสมาชิก</Text>
+          </Body>
         </Header>
         <Content style={styles.container}>
           <Thumbnail square large style={styles.imagepf} source={require('../resource/Images/avatar.png')} />
@@ -137,7 +160,7 @@ class editprofile extends Component {
                   onTouchOutside={() => this.setState({dialogVisible: false})}
                 >
                 <View>
-                    <Text style={styles.alertbody}>ลงทะเบียนสมาชิก สำเร็จ !!!</Text>
+                    <Text style={styles.alertbody}>แก้ไขข้อมูลสมาชิก สำเร็จ !!!</Text>
                   <Footer style={styles.Dialogfooter}>
                     <Button 
                           style={styles.btndirect}
@@ -158,7 +181,7 @@ class editprofile extends Component {
                   onTouchOutside={() => this.setState({dialogVisible: false})}
                 >
                   <View>
-                      <Text style={styles.alertbody}>ลงทะเบียนสมาชิก ไม่สำเร็จ !!!</Text>
+                      <Text style={styles.alertbody}>แก้ไขข้อมูลสมาชิก ไม่สำเร็จ !!!</Text>
                     <Footer style={styles.Dialogfooter}>
                       <Button 
                             style={styles.btndirect}
@@ -271,12 +294,6 @@ class editprofile extends Component {
                 >
                 <Text style={styles.textbtnconfirm}>บันทึกข้อมูล</Text>
                 </Button>
-                <Button light 
-                    style={{borderRadius:7,}}
-                    onPress={() => this.props.navigation.navigate("profile")}
-                >
-                  <Text style={styles.textbtnconfirm}>ย้อนกลับ</Text>
-                </Button>
               </View>
           </Form>
         </Content>
@@ -307,21 +324,24 @@ const styles = StyleSheet.create({
 },
   header :{
     backgroundColor:'#405273',
+    height: Platform.OS === 'ios' ? 80 : 60,
+    marginTop: Platform.OS === 'ios' ? null : 0,
   },
   headertext :{
-      marginTop:"3%",
-      fontSize:20,
-      color:'#fff',
-      display:'flex',
-      fontWeight:'bold',
-      justifyContent:'center',
+    alignSelf:'center',
+    marginLeft:Platform.OS === 'ios' ? "-105%" : "-40%",
+    fontSize:20,
+    color:'#fff',
+    display:'flex',
+    fontWeight:'bold',
   },
   textheader:{
     marginTop:"2%",
     marginLeft:"3%",
-    width:"36%",
+    width:"35%",
     color:"#FFF",
-    padding:6,
+    height:40,
+    padding:5,
     fontSize:18,
     backgroundColor:"#2574a9",
     fontWeight:"900",
@@ -370,13 +390,13 @@ const styles = StyleSheet.create({
  },
  Dialogfooter:{
   width:"60%",
+  height:Platform.OS === 'ios' ? 20 : null,
   marginTop:20,
   padding:5,
   backgroundColor:'#4285f4',
   alignSelf: "center",
   },
   btndirect:{
-    padding:5,
     justifyContent: "center",
     backgroundColor:'#4285f4',
     width:"100%",

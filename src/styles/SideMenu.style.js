@@ -30,11 +30,15 @@ export default {
     },
     image: {
       marginTop: 40,
+      marginLeft:-20,
       alignSelf: 'center',
     },
     hairline: {
-      borderBottomWidth: 1,
+      // borderBottomWidth: 1,
       borderColor:"#FFF",
       marginBottom:10,
+      height:1,
+      marginTop:20,
+      backgroundColor:"#FFF"
     },
   };

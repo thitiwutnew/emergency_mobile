@@ -14,7 +14,7 @@ export default class Home extends Component {
         <Container style={styles.container}>
         <StatusBar hidden = {true}/>
         <Header hasTabs style={styles.header}>
-          <Left>
+          <Left style={{marginLeft:Platform.OS === 'ios' ? 20 : 0,}}>
             {
                 Platform.OS === 'ios' ?  <Button transparent 
                 onPress={() => navigate("Home")}
@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
       right: 2,
     },
     header :{
-      backgroundColor:'#5e697d',
-      height: Platform.OS === 'ios' ? 100 : 60,
+      backgroundColor:'#405273',
+      height: Platform.OS === 'ios' ? 80 : 60,
       marginTop: Platform.OS === 'ios' ? null : 0,
     },
     imageheader :{
@@ -92,6 +92,8 @@ const styles = StyleSheet.create({
       marginTop: Platform.OS === 'ios' ? -11 : -20,
     },
     headertext :{
+        justifyContent:'center',
+        marginLeft:Platform.OS === 'ios' ? "-100%" : null,
         fontSize:20,
         color:'#fff',
         display:'flex',

@@ -62,7 +62,6 @@ class Registeruserdata extends Component {
       address:address,
     }
     let response = await user.updateprofile(profile, iduser.facebookid)
-    console.log(response)
     if(response.status==200){
       AsyncStorage.setItem('userProfile', JSON.stringify(profile), () => {
         this.props.handleUserdata(profile)
@@ -120,7 +119,7 @@ class Registeruserdata extends Component {
                   visible={this.state.dialogVisible}
                   onTouchOutside={() => this.setState({dialogVisible: false})}
                 >
-                <View>
+                <View style={{height: Platform.OS === 'ios' ? null : "13%",}}>
                     <Text style={styles.alertbody}>ลงทะเบียนสมาชิก สำเร็จ !!!</Text>
                   <Footer style={styles.Dialogfooter}>
                     <Button 
@@ -141,7 +140,7 @@ class Registeruserdata extends Component {
                   visible={this.state.dialogVisible}
                   onTouchOutside={() => this.setState({dialogVisible: false})}
                 >
-                  <View>
+                  <View style={{height: Platform.OS === 'ios' ? null : "13%",}}>
                       <Text style={styles.alertbody}>ลงทะเบียนสมาชิก ไม่สำเร็จ !!!</Text>
                     <Footer style={styles.Dialogfooter}>
                       <Button 
@@ -240,7 +239,7 @@ class Registeruserdata extends Component {
                 style={styles.btnconfirm}
                 onPress={this.submitForm.bind(this)}
             >
-              <Text style={styles.textbtnconfirm}>สมัครสมาชิก</Text>
+              <Text style={styles.textbtnconfirm}>บันทึกข้อมูล</Text>
             </Button>
           </Form>
         </Content>
@@ -271,6 +270,8 @@ const styles = StyleSheet.create({
 },
   header :{
     backgroundColor:'#405273',
+    height: Platform.OS === 'ios' ? 80 : 60,
+    marginTop: Platform.OS === 'ios' ? null : 0,
   },
   headertext :{
       marginTop:"3%",
@@ -301,15 +302,17 @@ const styles = StyleSheet.create({
     marginLeft:"5%"
   },
   textbtnconfirm:{
+    color:'#FFF',
+    marginTop:10,
     fontSize:18,
     fontWeight:"900",
   },
   btnconfirm:{
     alignSelf:'center',
-    paddingTop:"6%",
     marginTop:"10%",
+    height:Platform.OS === 'ios' ? 65 : 40,
+    paddingTop:Platform.OS === 'ios' ? 6.5 : 13,
     width:"50%",
-    marginBottom:40,
     borderRadius:7,
   },
   input:{
@@ -333,17 +336,17 @@ const styles = StyleSheet.create({
    fontWeight:"bold",
  },
  Dialogfooter:{
-  width:"60%",
-  marginTop:20,
-  padding:5,
-  backgroundColor:'#4285f4',
-  alignSelf: "center",
+    alignSelf:'center',
+    marginTop:15,
+    borderRadius:5,
+    height:10,
+    backgroundColor:'#fff',
   },
   btndirect:{
     padding:5,
     justifyContent: "center",
     backgroundColor:'#4285f4',
-    width:"100%",
-    fontSize:18,
+    width:"50%",
+    height:45
   },
 });

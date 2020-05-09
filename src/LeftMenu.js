@@ -8,8 +8,9 @@ import Login from './scene/Login';
 const Widthmenu = Dimensions.get('window').width;
 const LeftMenu = createDrawerNavigator(
     {
-        Home:{ screen: Home},
-        Login: { screen: Login }
+        
+        Login: { screen: Login },
+        Home:{ screen: Home}
     },
     {
         initialRouteName: "Login",

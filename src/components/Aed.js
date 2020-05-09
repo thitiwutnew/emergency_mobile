@@ -86,7 +86,7 @@ class Aed extends Component {
       <Container>
           <StatusBar hidden = {true}/>
         <Header style={styles.header}>
-          <Left>
+          <Left style={{marginLeft:Platform.OS === 'ios' ? 20 : 0,}}>
             {
                 Platform.OS === 'ios' ?  <Button transparent 
                 onPress={() => navigate("Home")}
@@ -159,8 +159,8 @@ const styles = StyleSheet.create({
     right: 2,
   },
   header :{
-    backgroundColor:'#5e697d',
-    height: Platform.OS === 'ios' ? 100 : 60,
+    backgroundColor:'#405273',
+    height: Platform.OS === 'ios' ? 80 : 60,
     marginTop: Platform.OS === 'ios' ? null : 0,
   },
   imageheader :{
@@ -173,7 +173,8 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? -11 : -20,
   },
   headertext :{
-      marginLeft:"-10%",
+      justifyContent:'center',
+      marginLeft:Platform.OS === 'ios' ? "-105%" : "-10%",
       fontSize:18,
       color:'#fff',
       display:'flex',

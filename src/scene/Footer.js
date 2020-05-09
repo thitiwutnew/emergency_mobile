@@ -1,7 +1,6 @@
 import React,{ Component } from "react";
-import { StyleSheet, View, } from "react-native";
+import { StyleSheet, View, Platform, } from "react-native";
 import { Container,Button,Icon,Content,Text, Form } from "native-base";
-import { Ionicons } from "@expo/vector-icons";
 import { connect } from "react-redux";
 // import testSvg from './test.svg';
 class Footer extends Component {
@@ -63,7 +62,7 @@ class Footer extends Component {
     return (
         <View 
             style={{
-                height:75,
+                height:Platform.OS === 'ios' ? 90 : 75,
                 backgroundColor: "#f03b42",
             }}>
             <View
@@ -74,22 +73,22 @@ class Footer extends Component {
                 width: 110,
                 height: 110,
                 borderRadius: 65,
-                bottom: 15,
+                bottom: Platform.OS === 'ios' ? 20 : 5,
                 zIndex: 10,
-                padding: "17%",
-                paddingTop: 30,
-                borderWidth: 3,
+                padding: Platform.OS === 'ios' ? 16 : "15%",
+                paddingTop: Platform.OS === 'ios' ? 5 : "0%",
+                borderWidth: 4,
                 borderColor: "#acacac",
                 
             }}
             >
-            <Button transparent>
+            <Button transparent style={{height:100,width:100}}>
                 <Icon
                 name="ios-call"
                 type="Ionicons"
                 color="#f00"
                 containerStyle={{ alignSelf: "center" }}
-                style={{ fontSize: 50, color: "red" }}
+                style={{ fontSize: 55, color: "red" }}
                 reverse
                 onPress={() => {}}
                 />
@@ -112,7 +111,7 @@ class Footer extends Component {
             <Icon
               name="camera"
               color="#fff"
-              style={{ fontSize: 35, marginLeft: "13%", color: "#fff",paddingHorizontal:20 }}
+              style={{ marginTop:Platform.OS === 'ios' ? -25 : 0,fontSize: Platform.OS === 'ios' ? 60 : 35, marginLeft: "13%", color: "#fff",paddingHorizontal:20 }}
               onPress={() => {}}
             />
           </Button>
@@ -121,7 +120,7 @@ class Footer extends Component {
               <Icon
                 name="chatboxes"
                 color="#fff"
-                style={{ fontSize: 35, marginRight: "20%", color: "#fff" }}
+                style={{ marginTop:Platform.OS === 'ios' ? -18 : 7,fontSize: Platform.OS === 'ios' ? 50 : 40, marginRight: "18%", color: "#fff" }}
                 onPress={() => {}}
                 containerStyle={{ marginHorizontal: 16 }}
               />

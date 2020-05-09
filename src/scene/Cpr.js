@@ -50,7 +50,7 @@ export default class Home extends Component {
       <Container style={styles.containers}>
           <StatusBar hidden = {true}/>
         <Header style={styles.header}>
-          <Left>
+          <Left style={{marginLeft:Platform.OS === 'ios' ? 20 : 0,}}>
             {
                 Platform.OS === 'ios' ?  <Button transparent 
                 onPress={() => navigate("Home")}
@@ -198,14 +198,16 @@ const styles = StyleSheet.create({
       fontSize: 30,
     },
     headertext :{
+        justifyContent:'center',
+        marginLeft:Platform.OS === 'ios' ? "-100%" : null,
         fontSize:20,
         color:'#fff',
         display:'flex',
         fontWeight:'bold',
     },
     header :{
-        backgroundColor:'#5e697d',
-        height: Platform.OS === 'ios' ? 100 : 60,
+        backgroundColor:'#405273',
+        height: Platform.OS === 'ios' ? 80 : 60,
         marginTop: Platform.OS === 'ios' ? null : 0,
       },
     containers: {

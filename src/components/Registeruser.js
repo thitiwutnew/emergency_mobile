@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet,Image, StatusBar, TextInput, TouchableHighlight} from 'react-native'
-import { Container, Header, Footer, Label, Input,Icon, Content,Text,Button, View } from 'native-base'
+import { Container, Header, Footer, Label, Input,Icon, Content,Text,Button, View,Left, Body } from 'native-base'
 import { Form, Field } from 'react-native-validate-form'
 import InputField from './InputField'
 import InputFieldIdcard from './InputFieldIdcard'
@@ -67,6 +67,7 @@ class Registeruser extends Component {
 }
 
   render() {
+    var  {navigate} = this.props.navigation;
     const required = value => (value ? undefined : 'กรุณา กรอกข้อมุล.')
     const email = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,5}$/i.test(value) ? 'กรอก อีเมล ให้ถูกต้อง.' : undefined
     const validatepasssword = value =>(this.state.password == value ? null : 'รหัสผ่านไม่ตรงกัน')
@@ -74,14 +75,37 @@ class Registeruser extends Component {
       <Container>
           <StatusBar hidden = {true}/>
         <Header style={styles.header}>
-          <Text style={styles.headertext}>ลงทะเบียนสมาชิก</Text>
+          <Left style={{marginLeft:Platform.OS === 'ios' ? 20 : 0,}}>
+            {
+                Platform.OS === 'ios' ?  <Button transparent 
+                onPress={() => navigate("Login")}
+              >
+                <Icon 
+                  name='ios-arrow-back' 
+                  type="Ionicons"
+                  style={{color:'#fff'}} 
+              />
+              </Button> :  <Button transparent 
+              onPress={() => navigate("Home")}
+            >
+              <Icon 
+                name='md-arrow-back' 
+                type="Ionicons"
+                style={{color:'#fff'}} 
+            />
+            </Button> 
+            }
+          </Left>
+          <Body>
+            <Text style={styles.headertext}>ลงทะเบียนสมาชิก</Text>
+          </Body>
         </Header>
         <Content style={styles.container}>
           <View style={styles.textheader}> 
             <Icon 
               name="user" 
               type="FontAwesome"
-              style={{fontSize:25,color:'#FFF'}}
+              style={{fontSize:20,color:'#FFF'}}
             >
               <Text style={{fontSize:18,color:'#FFF'}}>  ข้อมูลผู้ใช้งาน</Text>
             </Icon>
@@ -156,7 +180,7 @@ class Registeruser extends Component {
                   visible={this.state.dialogVisible}
                   onTouchOutside={() => this.setState({dialogVisible: false})}
                 >
-                <View>
+                <View style={{height: Platform.OS === 'ios' ? null : "13%",}}>
                     <Text style={styles.alertbody}>ลงทะเบียนสมาชิก สำเร็จ !!!</Text>
                   <Footer style={styles.Dialogfooter}>
                     <Button 
@@ -177,7 +201,7 @@ class Registeruser extends Component {
                   visible={this.state.dialogVisible}
                   onTouchOutside={() => this.setState({dialogVisible: false})}
                 >
-                  <View>
+                  <View style={{height: Platform.OS === 'ios' ? null : "13%",}}>
                       <Text style={styles.alertbody}>ลงทะเบียนสมาชิก ไม่สำเร็จ !!!</Text>
                     <Footer style={styles.Dialogfooter}>
                       <Button 
@@ -208,15 +232,17 @@ const styles = StyleSheet.create({
     backgroundColor:'#fff',
 },
   header :{
-    backgroundColor:'#405273',
+      backgroundColor:'#405273',
+      height: Platform.OS === 'ios' ? 80 : 60,
+      marginTop: Platform.OS === 'ios' ? null : 0,
   },
   headertext :{
-      marginTop:"3%",
-      fontSize:20,
-      color:'#fff',
-      display:'flex',
-      fontWeight:'bold',
-      justifyContent:'center',
+    alignSelf:'center',
+    marginLeft:Platform.OS === 'ios' ? "-105%" : "-40%",
+    fontSize:20,
+    color:'#fff',
+    display:'flex',
+    fontWeight:'bold',
   },
   textheader:{
     marginTop:"7%",
@@ -224,12 +250,13 @@ const styles = StyleSheet.create({
     width:"40%",
     color:"#FFF",
     padding:10,
-    fontSize:20,
     backgroundColor:"#2574a9",
     fontWeight:"900",
     borderColor:"#2574a9",
     borderWidth:1,
     borderRadius:10,
+    paddingBottom:10,
+    height: Platform.OS === 'ios' ? 57 : null,
   },
   form:{
     marginTop:20,
@@ -239,16 +266,16 @@ const styles = StyleSheet.create({
     marginLeft:"5%"
   },
   textbtnconfirm:{
+    color:'#FFF',
     marginTop:10,
     fontSize:18,
     fontWeight:"900",
   },
   btnconfirm:{
     alignSelf:'center',
-    paddingTop:"4%",
     marginTop:"10%",
+    paddingTop:Platform.OS === 'ios' ? null : 2,
     width:"50%",
-    marginBottom:40,
     borderRadius:7,
   },
   texterror:{
@@ -273,17 +300,16 @@ const styles = StyleSheet.create({
     fontWeight:"bold",
   },
   Dialogfooter:{
-   width:"60%",
-   marginTop:20,
-   padding:5,
-   backgroundColor:'#4285f4',
-   alignSelf: "center",
+    alignSelf:'center',
+    marginTop:15,
+    borderRadius:5,
+    height:10,
+    backgroundColor:'#fff',
    },
    btndirect:{
-     padding:5,
-     justifyContent: "center",
-     backgroundColor:'#4285f4',
-     width:"100%",
-     fontSize:18,
+    padding:5,
+    justifyContent: "center",
+    backgroundColor:'#4285f4',
+    width:"50%",
    },
 });

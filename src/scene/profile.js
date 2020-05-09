@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet,Image, StatusBar} from 'react-native';
-import { Container, Header, Textarea, Label, Input,Icon, Content,Text,Button, View, Thumbnail, Item } from 'native-base';
+import { Container, Header, Textarea, Label, Input,Icon, Content,Text,Button, View, Thumbnail, Item, Left, Body } from 'native-base';
 import { Form, Field } from 'react-native-validate-form'
 import InputField from '../components/InputField'
 import InputFieldIdcard from '../components/InputFieldIdcard'
@@ -57,7 +57,30 @@ class profile extends Component {
       <Container>
           <StatusBar hidden = {true}/>
         <Header style={styles.header}>
-          <Text style={styles.headertext}>ข้อมูลสมาชิก</Text>
+          <Left style={{marginLeft:Platform.OS === 'ios' ? 20 : 0,}}>
+            {
+                Platform.OS === 'ios' ?  <Button transparent 
+                onPress={() => navigate("Home")}
+              >
+                <Icon 
+                  name='ios-arrow-back' 
+                  type="Ionicons"
+                  style={{color:'#fff'}} 
+              />
+              </Button> :  <Button transparent 
+              onPress={() => navigate("Home")}
+            >
+              <Icon 
+                name='md-arrow-back' 
+                type="Ionicons"
+                style={{color:'#fff'}} 
+            />
+            </Button> 
+            }
+          </Left>
+          <Body>
+            <Text style={styles.headertext}>ข้อมูลสมาชิก</Text>
+          </Body>
         </Header>
         <Content style={styles.container}>
           <Thumbnail square large style={styles.imagepf} source={require('../resource/Images/avatar.png')} />
@@ -116,7 +139,9 @@ class profile extends Component {
                 />
                 <Input disabled >โรคประจำตัว : {this.state.disease}   </Input>
               </Item>
-              <Item disabled>
+              <Item disabled
+                style={{marginBottom:-7}}
+              >
                 <Icon 
                   name="bolt" 
                   type="FontAwesome"
@@ -131,12 +156,6 @@ class profile extends Component {
               onPress={() => this.props.navigation.navigate("editprofile")}
             >
               <Text style={styles.textbtnconfirm}>แก้ไขข้อมูล</Text>
-            </Button>
-            <Button light 
-              style={{borderRadius:7,}}
-              onPress={() => this.props.navigation.navigate("Home")}
-            >
-              <Text style={styles.textbtnconfirm}>ย้อนกลับ</Text>
             </Button>
           </View>
         </Content>
@@ -167,14 +186,16 @@ const styles = StyleSheet.create({
 },
   header :{
     backgroundColor:'#405273',
+    height: Platform.OS === 'ios' ? 80 : 60,
+    marginTop: Platform.OS === 'ios' ? null : 0,
   },
   headertext :{
-      marginTop:"3%",
-      fontSize:20,
-      color:'#fff',
-      display:'flex',
-      fontWeight:'bold',
-      justifyContent:'center',
+    alignSelf:'center',
+    marginLeft:Platform.OS === 'ios' ? "-105%" : "-40%",
+    fontSize:20,
+    color:'#fff',
+    display:'flex',
+    fontWeight:'bold',
   },
   textheader:{
     marginTop:"2%",

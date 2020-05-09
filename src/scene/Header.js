@@ -5,7 +5,7 @@ import Icons from "react-native-vector-icons/FontAwesome";
 
 export const Header = props => {
   const [button, setButton] = useState(true);
-  const [notificationCount, setNotificationCount] = useState("1");
+  const [notificationCount, setNotificationCount] = useState("99");
 
   const handleButton = () => {
     setButton(false);
@@ -15,7 +15,7 @@ export const Header = props => {
     <View style={styles.header}>
       <View>
         <Button transparent onPress={() => props.open()}>
-          <Icon name="menu" style={{ color: "#fff" }} />
+          <Icon name="menu" style={{ color: "#fff", fontSize:Platform.OS === 'ios' ? 40 : 30 }} />
         </Button>
       </View>
       <View style={{ alignContent: "center" }}>
@@ -26,8 +26,10 @@ export const Header = props => {
         />
       </View>
       <View>
-        <Button transparent active badge vertical onPress={() => handleButton()}>
-          <Icons style={styles.bigBlue} name="bell" />
+        <Button transparent active badge  onPress={() => handleButton()}>
+          {
+            Platform.OS === 'ios' ?  <Icons style={styles.bigBlue} name="bell" /> :  <Icons style={styles.bigBlue} name="bell" />
+          }
           {button == true ? (
             <Badge style={styles.alart}>
               <Text style={styles.textAlert}>{notificationCount}</Text>
@@ -53,24 +55,25 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: "#405273",
-    padding: 10,
-    paddingTop: 20,
+    padding: Platform.OS === 'ios' ? 15 : 10,
+    paddingTop: Platform.OS === 'ios' ? "12%" : "5%",
     flexDirection: "row",
     justifyContent: "space-between"
   },
   bigBlue: {
     color: "#fff",
     fontWeight: "bold",
-    fontSize: Platform.OS === "ios" ? 35 : 30
+    fontSize: Platform.OS === "ios" ? 33 : 30
   },
   alart: {
     position: "absolute",
-    width: Platform.OS === "ios" ? "110%" : 20,
+    width: 25,
     borderRadius: 10,
     textAlign: "center",
-    height: 15,
+    height: 20,
     paddingRight: 1,
-    paddingLeft: -20,
+    paddingLeft: Platform.OS === "ios" ? 1 :2,
+    paddingTop: Platform.OS === "ios" ? 1 :2,
     top: 2,
     right: 2
   },

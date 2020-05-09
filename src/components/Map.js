@@ -161,7 +161,7 @@ class Map extends Component {
             visible={this.state.dialogVisible}
             onTouchOutside={() => this.setState({dialogVisible: false})}
         >
-          <View>
+          <View style={{height: Platform.OS === 'ios' ? null : "18%",}}>
               { 
                 data ? <Text>{data+"\n\n"}sadasdasdas</Text>: null
               }
@@ -271,7 +271,9 @@ const styles = StyleSheet.create({
     width:"100%",
   },
   Dialogfooter:{
-    padding:5,
+    marginTop:15,
+    borderRadius:5,
+    height:10,
     backgroundColor:'#fff',
   }
 })

@@ -17,8 +17,8 @@ import profile from './scene/profile'
 import editprofile from './scene/editprofile'
 
 const navigation = createStackNavigator({
-  Login: { screen: Login },
   Home: { screen: Home },
+  Login: { screen: Login },
   LeftMenu: { screen: LeftMenu },
   History: { screen: History },
   Map: { screen: Map },
@@ -39,7 +39,7 @@ const navigation = createStackNavigator({
   },
   initialRouteName: "LeftMenu",
   headerMode: "none",
-  swipeEnabled: false
+  swipeEnabled: true
 });
 
 export default createAppContainer(navigation);
