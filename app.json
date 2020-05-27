@@ -24,7 +24,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.test.emergency_mobile"
     },
     "android": {
       "package": "com.test.emergency_mobile"

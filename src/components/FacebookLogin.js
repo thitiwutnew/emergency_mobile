@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import { StyleSheet } from 'react-native'
-import { Container, Footer, Left, Body, Right, Button, Icon, View, Form, Text, Input, Item } from 'native-base'
+import {  Button, Text } from 'native-base'
 import * as Facebook from 'expo-facebook'
 import { connect } from 'react-redux'
 import _ from 'lodash'
-import Home from '../scene/Home'
 import { setUsername } from '../actions/at_fblogin'
 import { checkloginfacebook } from '../actions/at_checklogin'
 import auth from '../model/auth'
 import { AsyncStorage } from 'react-native'
+import styles from '../styles/Main.style';
+
 class FacebookLogin extends Component {
   constructor(props) {
     super();
@@ -89,13 +89,3 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 export default connect(mapStateToProps, mapDispatchToProps)(FacebookLogin)
-
-const styles = StyleSheet.create({
-    btnfacebook: {
-        marginTop:10,
-        justifyContent:"center",
-        borderRadius:7,
-        backgroundColor:"#0d8bf0",
-        width:"75%",
-      },
-})

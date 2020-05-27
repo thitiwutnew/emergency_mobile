@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet,Image, StatusBar} from 'react-native';
-import { Container, Header, Textarea, Label, Input,Icon, Content,Text,Button, View, Thumbnail, Item, Left, Body } from 'native-base';
-import { Form, Field } from 'react-native-validate-form'
-import InputField from '../components/InputField'
-import InputFieldIdcard from '../components/InputFieldIdcard'
-import InputFieldTel from '../components/InputFieldTel'
+import { StyleSheet, StatusBar} from 'react-native';
+import { Container, Header,Input,Icon, Content,Text,Button, View, Thumbnail, Item, Left, Body,Right } from 'native-base';
+import { Form } from 'react-native-validate-form'
 import { setUserdata } from '../actions/at_fbregister'
 import { connect } from 'react-redux';
-import user from '../model/user'
-import { Dialog } from 'react-native-simple-dialogs';
 import { checkloginfacebook } from '../actions/at_checklogin'
 import { AsyncStorage } from 'react-native'
+import styles from '../styles/Main.style';
 
 class profile extends Component {
   constructor() {
@@ -84,17 +80,17 @@ class profile extends Component {
         </Header>
         <Content style={styles.container}>
           <Thumbnail square large style={styles.imagepf} source={require('../resource/Images/avatar.png')} />
-          <View style={styles.textheader}> 
-            <Icon 
+          <View style={styles.textheaderprofile}> 
+            <Text style={{fontSize:18,color:'#FFF',padding:10}}>
+              <Icon 
               name="address-book" 
               type="FontAwesome"
               style={{fontSize:20,color:'#FFF'}}
-            >
-              <Text style={{fontSize:18,color:'#FFF'}}>  ข้อมูลส่วนตัว</Text>
-            </Icon>
+              >
+              </Icon>  ข้อมูลส่วนตัว</Text>
           </View>
           <Form  
-            style={styles.form}
+            style={styles.formprofile}
           >
               <Item disabled>
                 <Icon 
@@ -178,102 +174,3 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 export default connect(mapStateToProps,mapDispatchToProps)(profile);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor:'#fff',
-},
-  header :{
-    backgroundColor:'#405273',
-    height: Platform.OS === 'ios' ? 80 : 60,
-    marginTop: Platform.OS === 'ios' ? null : 0,
-  },
-  headertext :{
-    alignSelf:'center',
-    marginLeft:Platform.OS === 'ios' ? "-105%" : "-40%",
-    fontSize:20,
-    color:'#fff',
-    display:'flex',
-    fontWeight:'bold',
-  },
-  textheader:{
-    marginTop:"2%",
-    marginLeft:"3%",
-    width:"36%",
-    color:"#FFF",
-    padding:6,
-    fontSize:18,
-    backgroundColor:"#2574a9",
-    fontWeight:"900",
-    borderColor:"#2574a9",
-    borderWidth:1,
-    borderRadius:10,
-  },
-  form:{
-    marginTop:20,
-    color:"#000",
-    fontSize:18,
-    width:"92%",
-    marginLeft:"4%",
-    borderWidth:1,
-    padding:5,
-    borderRadius:7,
-  },
-  textbtnconfirm:{
-    fontSize:18,
-    fontWeight:"900",
-  },
-  btnconfirm:{
-    paddingTop:"6%",
-    marginTop:"10%",
-    width:"40%",
-    borderRadius:7,
-  },
-  btnback:{
-    alignSelf:'center',
-    paddingTop:"6%",
-    width:"40%",
-    marginBottom:40,
-    borderRadius:7,
-  },
-  input:{
-    width:"90%",
-    fontSize:15,
-    marginLeft:"5%",
-    marginTop:0,
-    borderRadius:7,
-    borderColor:"#2574a9",
-    borderWidth:2,
-    padding:7,
- },
- alert:{
-   flex:1,
-   fontWeight:"900",
- },
- alertbody:{
-   alignSelf:'center',
-   justifyContent:'center',
-   fontSize:18,
-   fontWeight:"bold",
- },
- Dialogfooter:{
-  width:"60%",
-  marginTop:20,
-  padding:5,
-  backgroundColor:'#4285f4',
-  alignSelf: "center",
-  },
-  btndirect:{
-    padding:5,
-    justifyContent: "center",
-    backgroundColor:'#4285f4',
-    width:"100%",
-    fontSize:18,
-  },
-  imagepf:{
-    marginTop:'7%',
-    alignSelf:'center',
-    marginBottom:'5%',
-  }
-});

@@ -128,7 +128,7 @@ class SideMenu extends Component {
               </Text>
               </Button>
               <Button transparent
-                  onPress={() => navigate("registeruser")}
+                  onPress={() => navigate("History")}
               >
               <Text style={styles.navItemStyle}>
               <Icon 

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet,Image, StatusBar} from 'react-native';
+import { StatusBar} from 'react-native';
 import { Container, Header, Tab, Tabs, TabHeading, Icon, Text, Left, Button, Body, Right, ScrollableTab  }from 'native-base';
-import Icons from 'react-native-vector-icons/FontAwesome';
-import MenuDrawer from 'react-native-side-drawer'
-import Datatotal from './Ducument/DucumentTotal'
 import Datafirstaid from './Ducument/Firstaid'
 import Datamedical from './Ducument/Medicalknowledge'
 import Dataalternative from './Ducument/Alternativemedicine'
+import styles from '../styles/Main.style';
+
 export default class Home extends Component {
   render() {
     var  {navigate} = this.props.navigation;
@@ -57,47 +56,5 @@ export default class Home extends Component {
     );
   }
 }
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor:'#fff',
-  },
-    bigBlue: {
-      color: '#fff',
-      fontWeight: 'bold',
-      fontSize: Platform.OS === 'ios' ? 35 : 30,
-    },
-    alart: {
-      position: 'absolute',
-      width: Platform.OS === 'ios' ? '110%' : 33,
-      borderRadius:100,
-      height:25,
-      paddingRight:1,
-      paddingLeft:-2,
-      top: 2, 
-      right: 2,
-    },
-    header :{
-      backgroundColor:'#405273',
-      height: Platform.OS === 'ios' ? 80 : 60,
-      marginTop: Platform.OS === 'ios' ? null : 0,
-    },
-    imageheader :{
-      height: Platform.OS === 'ios' ? '100%' : 40,
-      width: Platform.OS === 'ios' ? 150 : '100%',
-    },
-    footer :{
-      backgroundColor:'#f03b42',
-      color:'#fff',
-      marginTop: Platform.OS === 'ios' ? -11 : -20,
-    },
-    headertext :{
-        justifyContent:'center',
-        marginLeft:Platform.OS === 'ios' ? "-100%" : null,
-        fontSize:20,
-        color:'#fff',
-        display:'flex',
-        fontWeight:'bold',
-    }
-  });
+
   

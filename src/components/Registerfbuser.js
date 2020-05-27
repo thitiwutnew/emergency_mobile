@@ -11,6 +11,8 @@ import user from '../model/user'
 import { Dialog } from 'react-native-simple-dialogs';
 import { checkloginfacebook } from '../actions/at_checklogin'
 import { AsyncStorage } from 'react-native'
+import styles from '../styles/Main.style';
+
 
 class Registerfbuser extends Component {
   constructor() {
@@ -114,7 +116,7 @@ class Registerfbuser extends Component {
                   visible={this.state.dialogVisible}
                   onTouchOutside={() => this.setState({dialogVisible: false})}
                 >
-                <View>
+                <View style={{height: Platform.OS === 'ios' ? null : "13%",}}>
                     <Text style={styles.alertbody}>ลงทะเบียนสมาชิก สำเร็จ !!!</Text>
                   <Footer style={styles.Dialogfooter}>
                     <Button 
@@ -135,7 +137,7 @@ class Registerfbuser extends Component {
                   visible={this.state.dialogVisible}
                   onTouchOutside={() => this.setState({dialogVisible: false})}
                 >
-                  <View>
+                  <View style={{height: Platform.OS === 'ios' ? null : "13%",}}>
                       <Text style={styles.alertbody}>ลงทะเบียนสมาชิก ไม่สำเร็จ !!!</Text>
                     <Footer style={styles.Dialogfooter}>
                       <Button 
@@ -257,7 +259,7 @@ class Registerfbuser extends Component {
                 style={styles.btnconfirm}
                 onPress={this.submitForm.bind(this)}
             >
-              <Text style={styles.textbtnconfirm}>สมัครสมาชิก</Text>
+              <Text style={styles.textbtnconfirmregis}>สมัครสมาชิก</Text>
             </Button>
           </Form>
         </Content>
@@ -280,87 +282,3 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 export default connect(mapStateToProps,mapDispatchToProps)(Registerfbuser);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor:'#fff',
-},
-  header :{
-    backgroundColor:'#405273',
-  },
-  headertext :{
-      marginTop:"3%",
-      fontSize:20,
-      color:'#fff',
-      display:'flex',
-      fontWeight:'bold',
-      justifyContent:'center',
-  },
-  textheader:{
-    marginTop:"2%",
-    marginLeft:"3%",
-    width:"40%",
-    color:"#FFF",
-    padding:10,
-    fontSize:20,
-    backgroundColor:"#2574a9",
-    fontWeight:"900",
-    borderColor:"#2574a9",
-    borderWidth:1,
-    borderRadius:10,
-  },
-  form:{
-    marginTop:10,
-    color:"#000",
-    fontSize:18,
-    width:"90%",
-    marginLeft:"5%"
-  },
-  textbtnconfirm:{
-    fontSize:18,
-    fontWeight:"900",
-  },
-  btnconfirm:{
-    alignSelf:'center',
-    paddingTop:"6%",
-    marginTop:"10%",
-    width:"50%",
-    marginBottom:40,
-    borderRadius:7,
-  },
-  input:{
-    width:"90%",
-    fontSize:15,
-    marginLeft:"5%",
-    marginTop:5,
-    borderRadius:7,
-    borderColor:"#2574a9",
-    borderWidth:2,
-    padding:7,
- },
- alert:{
-   flex:1,
-   fontWeight:"900",
- },
- alertbody:{
-   alignSelf:'center',
-   justifyContent:'center',
-   fontSize:18,
-   fontWeight:"bold",
- },
- Dialogfooter:{
-  width:"60%",
-  marginTop:20,
-  padding:5,
-  backgroundColor:'#4285f4',
-  alignSelf: "center",
-  },
-  btndirect:{
-    padding:5,
-    justifyContent: "center",
-    backgroundColor:'#4285f4',
-    width:"100%",
-    fontSize:18,
-  },
-});

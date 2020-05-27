@@ -11,6 +11,7 @@ import user from '../model/user'
 import { Dialog } from 'react-native-simple-dialogs';
 import { checkloginfacebook } from '../actions/at_checklogin'
 import { AsyncStorage } from 'react-native'
+import styles from '../styles/Main.style';
 
 class editprofile extends Component {
   constructor() {
@@ -142,14 +143,14 @@ class editprofile extends Component {
         </Header>
         <Content style={styles.container}>
           <Thumbnail square large style={styles.imagepf} source={require('../resource/Images/avatar.png')} />
-          <View style={styles.textheader}> 
-            <Icon 
+          <View style={styles.textheadereditprofile}> 
+            <Text style={{fontSize:18,color:'#FFF',padding:15,height:50}}>
+              <Icon 
               name="address-book" 
               type="FontAwesome"
               style={{fontSize:20,color:'#FFF'}}
-            >
-              <Text style={{fontSize:18,color:'#FFF'}}>  ข้อมูลส่วนตัว</Text>
-            </Icon>
+              >
+              </Icon>  ข้อมูลส่วนตัว</Text>
           </View>
           {
             this.state.statuscreateprofile === true ? 
@@ -159,7 +160,7 @@ class editprofile extends Component {
                   visible={this.state.dialogVisible}
                   onTouchOutside={() => this.setState({dialogVisible: false})}
                 >
-                <View>
+                <View style={{height: Platform.OS === 'ios' ? null : "13%",}}>
                     <Text style={styles.alertbody}>แก้ไขข้อมูลสมาชิก สำเร็จ !!!</Text>
                   <Footer style={styles.Dialogfooter}>
                     <Button 
@@ -180,7 +181,7 @@ class editprofile extends Component {
                   visible={this.state.dialogVisible}
                   onTouchOutside={() => this.setState({dialogVisible: false})}
                 >
-                  <View>
+                  <View style={{height: Platform.OS === 'ios' ? null : "13%",}}>
                       <Text style={styles.alertbody}>แก้ไขข้อมูลสมาชิก ไม่สำเร็จ !!!</Text>
                     <Footer style={styles.Dialogfooter}>
                       <Button 
@@ -316,95 +317,3 @@ const mapDispatchToProps = dispatch => ({
   }
 })
 export default connect(mapStateToProps,mapDispatchToProps)(editprofile);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor:'#fff',
-},
-  header :{
-    backgroundColor:'#405273',
-    height: Platform.OS === 'ios' ? 80 : 60,
-    marginTop: Platform.OS === 'ios' ? null : 0,
-  },
-  headertext :{
-    alignSelf:'center',
-    marginLeft:Platform.OS === 'ios' ? "-105%" : "-40%",
-    fontSize:20,
-    color:'#fff',
-    display:'flex',
-    fontWeight:'bold',
-  },
-  textheader:{
-    marginTop:"2%",
-    marginLeft:"3%",
-    width:"35%",
-    color:"#FFF",
-    height:40,
-    padding:5,
-    fontSize:18,
-    backgroundColor:"#2574a9",
-    fontWeight:"900",
-    borderColor:"#2574a9",
-    borderWidth:1,
-    borderRadius:10,
-  },
-  form:{
-    marginTop:10,
-    color:"#000",
-    fontSize:18,
-    width:"90%",
-    marginLeft:"5%"
-  },
-  textbtnconfirm:{
-    fontSize:18,
-    fontWeight:"900",
-  },
-  btnconfirm:{
-    alignSelf:'center',
-    paddingTop:"6%",
-    marginTop:"11%",
-    width:"50%",
-    marginBottom:40,
-    borderRadius:7,
-  },
-  input:{
-    width:"90%",
-    fontSize:15,
-    marginLeft:"5%",
-    marginTop:5,
-    borderRadius:7,
-    borderColor:"#2574a9",
-    borderWidth:2,
-    padding:7,
- },
- alert:{
-   flex:1,
-   fontWeight:"900",
- },
- alertbody:{
-   alignSelf:'center',
-   justifyContent:'center',
-   fontSize:18,
-   fontWeight:"bold",
- },
- Dialogfooter:{
-  width:"60%",
-  height:Platform.OS === 'ios' ? 20 : null,
-  marginTop:20,
-  padding:5,
-  backgroundColor:'#4285f4',
-  alignSelf: "center",
-  },
-  btndirect:{
-    justifyContent: "center",
-    backgroundColor:'#4285f4',
-    width:"100%",
-    fontSize:18,
-  },
-  imagepf:{
-    marginTop:'7%',
-    alignSelf:'center',
-    marginBottom:'5%',
-  }
-});

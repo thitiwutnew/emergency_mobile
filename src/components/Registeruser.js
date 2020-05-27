@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { setUserdata } from '../actions/at_fbregister'
 import user from '../model/user'
 import { Dialog } from 'react-native-simple-dialogs';
+import styles from '../styles/Main.style';
 
 class Registeruser extends Component {
 
@@ -86,7 +87,7 @@ class Registeruser extends Component {
                   style={{color:'#fff'}} 
               />
               </Button> :  <Button transparent 
-              onPress={() => navigate("Home")}
+              onPress={() => navigate("Login")}
             >
               <Icon 
                 name='md-arrow-back' 
@@ -224,92 +225,3 @@ class Registeruser extends Component {
 }
 
 export default connect(null,null)(Registeruser);
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor:'#fff',
-},
-  header :{
-      backgroundColor:'#405273',
-      height: Platform.OS === 'ios' ? 80 : 60,
-      marginTop: Platform.OS === 'ios' ? null : 0,
-  },
-  headertext :{
-    alignSelf:'center',
-    marginLeft:Platform.OS === 'ios' ? "-105%" : "-40%",
-    fontSize:20,
-    color:'#fff',
-    display:'flex',
-    fontWeight:'bold',
-  },
-  textheader:{
-    marginTop:"7%",
-    marginLeft:"3%",
-    width:"40%",
-    color:"#FFF",
-    padding:10,
-    backgroundColor:"#2574a9",
-    fontWeight:"900",
-    borderColor:"#2574a9",
-    borderWidth:1,
-    borderRadius:10,
-    paddingBottom:10,
-    height: Platform.OS === 'ios' ? 57 : null,
-  },
-  form:{
-    marginTop:20,
-    color:"#000",
-    fontSize:18,
-    width:"90%",
-    marginLeft:"5%"
-  },
-  textbtnconfirm:{
-    color:'#FFF',
-    marginTop:10,
-    fontSize:18,
-    fontWeight:"900",
-  },
-  btnconfirm:{
-    alignSelf:'center',
-    marginTop:"10%",
-    paddingTop:Platform.OS === 'ios' ? null : 2,
-    width:"50%",
-    borderRadius:7,
-  },
-  texterror:{
-    color:"red",
-    fontSize:13,
-    marginLeft:"5%"
-  },
-  input:{
-     width:"90%",
-     fontSize:15,
-     marginLeft:"5%",
-     marginTop:5,
-     borderRadius:7,
-     borderColor:"#2574a9",
-     borderWidth:2,
-     padding:7,
-  },
-  alertbody:{
-    alignSelf:'center',
-    justifyContent:'center',
-    fontSize:18,
-    fontWeight:"bold",
-  },
-  Dialogfooter:{
-    alignSelf:'center',
-    marginTop:15,
-    borderRadius:5,
-    height:10,
-    backgroundColor:'#fff',
-   },
-   btndirect:{
-    padding:5,
-    justifyContent: "center",
-    backgroundColor:'#4285f4',
-    width:"50%",
-   },
-});

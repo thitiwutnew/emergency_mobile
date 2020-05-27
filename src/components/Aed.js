@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { makedirecttion } from '../actions/at_makedirecttion'
 import { directtion } from '../actions/at_directtion'
 import MapViewDirections from 'react-native-maps-directions'
+import styles from '../styles/Main.style';
 
 class Aed extends Component {
     constructor(props) {
@@ -50,9 +51,9 @@ class Aed extends Component {
                       <Text style={{ fontSize:18 }}>{item.title}</Text>
                       <Text note numberOfLines={1}>{item.description}</Text>
                   </Body>
-                  <Right style={styles.timeCol}>
+                  <Right style={styles.timeColaed}>
                   <Text style={styles.textbig}>{timedirect}</Text>
-                  <Text style={styles.textSmall}>{distance}</Text>
+                  <Text style={styles.textSmallaed}>{distance}</Text>
                   </Right>
                 </ListItem> 
                 )
@@ -138,57 +139,3 @@ const mapStateToProps = (state) => ({
   })
   
 export default connect(mapStateToProps, mapDispatchToProps)(Aed)
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor:'#fff',
-},
-  imgicon: {
-      display:"flex",
-      width:50,
-  },
-  alart: {
-    position: 'absolute',
-    width: Platform.OS === 'ios' ? '110%' : 33,
-    borderRadius:100,
-    height:25,
-    paddingRight:1,
-    paddingLeft:-2,
-    top: 2, 
-    right: 2,
-  },
-  header :{
-    backgroundColor:'#405273',
-    height: Platform.OS === 'ios' ? 80 : 60,
-    marginTop: Platform.OS === 'ios' ? null : 0,
-  },
-  imageheader :{
-    height: Platform.OS === 'ios' ? '100%' : 40,
-    width: Platform.OS === 'ios' ? 150 : '100%',
-  },
-  footer :{
-    backgroundColor:'#f03b42',
-    color:'#fff',
-    marginTop: Platform.OS === 'ios' ? -11 : -20,
-  },
-  headertext :{
-      justifyContent:'center',
-      marginLeft:Platform.OS === 'ios' ? "-105%" : "-10%",
-      fontSize:18,
-      color:'#fff',
-      display:'flex',
-      fontWeight:'bold',
-  },
-  timeCol: {
-    alignItems: "center",
-  },
-  textSmall: {
-    color: "black",
-    fontSize: 15,
-  },
-  textbig: {
-    color: "green",
-    fontSize: 18,
-  },
-});

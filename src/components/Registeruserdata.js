@@ -11,6 +11,7 @@ import user from '../model/user'
 import { Dialog } from 'react-native-simple-dialogs';
 import { checkloginfacebook } from '../actions/at_checklogin'
 import { AsyncStorage } from 'react-native'
+import styles from '../styles/Main.style';
 
 class Registeruserdata extends Component {
   constructor() {
@@ -99,17 +100,17 @@ class Registeruserdata extends Component {
       <Container>
           <StatusBar hidden = {true}/>
         <Header style={styles.header}>
-          <Text style={styles.headertext}>ลงทะเบียนสมาชิก</Text>
+          <Text style={styles.headertextregis}>ลงทะเบียนสมาชิก</Text>
         </Header>
         <Content style={styles.container}>
-          <View style={styles.textheader}> 
-            <Icon 
+        <View style={styles.textheaderprofile}> 
+            <Text style={{fontSize:18,color:'#FFF',padding:10}}>
+              <Icon 
               name="address-book" 
               type="FontAwesome"
-              style={{fontSize:25,color:'#FFF'}}
-            >
-              <Text style={{fontSize:18,color:'#FFF'}}>  ข้อมูลส่วนตัว</Text>
-            </Icon>
+              style={{fontSize:20,color:'#FFF'}}
+              >
+              </Icon>  ข้อมูลส่วนตัว</Text>
           </View>
           {
             this.state.statuscreateprofile === true ? 
@@ -235,12 +236,14 @@ class Registeruserdata extends Component {
                   customStyle={styles.input}
                   placeholder="กรอก การแพ้ยา"
               />
-            <Button block success 
-                style={styles.btnconfirm}
-                onPress={this.submitForm.bind(this)}
-            >
-              <Text style={styles.textbtnconfirm}>บันทึกข้อมูล</Text>
-            </Button>
+             <View style={{flexDirection: "row",alignSelf:'center',marginTop:'10%',marginBottom:'10%'}}>
+                <Button  success 
+                    style={{marginRight:10,borderRadius:7,}}
+                    onPress={this.submitForm.bind(this)}
+                >
+                <Text style={styles.textbtnconfirm}>บันทึกข้อมูล</Text>
+                </Button>
+              </View>
           </Form>
         </Content>
       </Container>
@@ -263,90 +266,3 @@ const mapDispatchToProps = dispatch => ({
 })
 export default connect(mapStateToProps,mapDispatchToProps)(Registeruserdata);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor:'#fff',
-},
-  header :{
-    backgroundColor:'#405273',
-    height: Platform.OS === 'ios' ? 80 : 60,
-    marginTop: Platform.OS === 'ios' ? null : 0,
-  },
-  headertext :{
-      marginTop:"3%",
-      fontSize:20,
-      color:'#fff',
-      display:'flex',
-      fontWeight:'bold',
-      justifyContent:'center',
-  },
-  textheader:{
-    marginTop:"2%",
-    marginLeft:"3%",
-    width:"40%",
-    color:"#FFF",
-    padding:10,
-    fontSize:20,
-    backgroundColor:"#2574a9",
-    fontWeight:"900",
-    borderColor:"#2574a9",
-    borderWidth:1,
-    borderRadius:10,
-  },
-  form:{
-    marginTop:10,
-    color:"#000",
-    fontSize:18,
-    width:"90%",
-    marginLeft:"5%"
-  },
-  textbtnconfirm:{
-    color:'#FFF',
-    marginTop:10,
-    fontSize:18,
-    fontWeight:"900",
-  },
-  btnconfirm:{
-    alignSelf:'center',
-    marginTop:"10%",
-    height:Platform.OS === 'ios' ? 65 : 40,
-    paddingTop:Platform.OS === 'ios' ? 6.5 : 13,
-    width:"50%",
-    borderRadius:7,
-  },
-  input:{
-    width:"90%",
-    fontSize:15,
-    marginLeft:"5%",
-    marginTop:5,
-    borderRadius:7,
-    borderColor:"#2574a9",
-    borderWidth:2,
-    padding:7,
- },
- alert:{
-   flex:1,
-   fontWeight:"900",
- },
- alertbody:{
-   alignSelf:'center',
-   justifyContent:'center',
-   fontSize:18,
-   fontWeight:"bold",
- },
- Dialogfooter:{
-    alignSelf:'center',
-    marginTop:15,
-    borderRadius:5,
-    height:10,
-    backgroundColor:'#fff',
-  },
-  btndirect:{
-    padding:5,
-    justifyContent: "center",
-    backgroundColor:'#4285f4',
-    width:"50%",
-    height:45
-  },
-});

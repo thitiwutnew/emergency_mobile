@@ -10,6 +10,7 @@ import { Dialog } from 'react-native-simple-dialogs';
 import { View } from 'react-native-animatable'
 import { aedlocation } from '../actions/at_aedlocation'
 import { directtion } from '../actions/at_directtion'
+import styles from '../styles/Main.style';
 
 class Map extends Component {
   constructor(props) {
@@ -253,28 +254,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(Map)
 
-const styles = StyleSheet.create({
-  mapStyle: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-  },
-  btndirect:{
-    padding:5,
-    justifyContent: "center",
-    backgroundColor:'#4285f4',
-    width:"100%",
-  },
-  btncancel:{
-    padding:5,
-    justifyContent: "center",
-    backgroundColor:'#ff2d2d',
-    width:"100%",
-  },
-  Dialogfooter:{
-    marginTop:15,
-    borderRadius:5,
-    height:10,
-    backgroundColor:'#fff',
-  }
-})
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet,Image, ImageBackground,TextInput } from 'react-native';
-import { Container, Footer, Left, Body, Right, Button,Icon, View,Form,Text,Input, Item } from 'native-base';
+import { Image, ImageBackground } from 'react-native';
+import { Container, Button, View,Form,Text,Input, Item } from 'native-base';
 import FacebookCreatePF from '../components/FacebookRegister'
 import FacebookLogin from '../components/FacebookLogin'
 import { connect } from 'react-redux';
@@ -9,7 +9,7 @@ import { setlocation } from '../actions/at_location'
 import auth from '../model/auth'
 import _ from 'lodash'
 import { AsyncStorage } from 'react-native'
-import Home from '../route';
+import styles from '../styles/Main.style';
 
 class Login extends Component {
   constructor(props) {
@@ -113,14 +113,14 @@ class Login extends Component {
               source={require('../resource/Images/Logo-login.png')} 
             />
                 <Form style={styles.contentform}>
-                    <Item rounded last style={styles.input}>
+                    <Item rounded last style={styles.inputlogin}>
                         <Input 
                           placeholder='อีเมล' 
                           value={email}
                           onChangeText={(text) => this.setState({ email: text })} 
                         />
                     </Item>
-                    <Item rounded last style={styles.input}>
+                    <Item rounded last style={styles.inputlogin}>
                         <Input 
                           placeholder='รหัสผ่าน' 
                           value={password}
@@ -172,57 +172,3 @@ const mapDispatchToProps = dispatch => ({
 })
 export default connect(mapStateToProps,mapDispatchToProps)(Login);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor:'#5e697d',
-},
-    contentbtn: {
-    marginTop:10,
-    alignSelf:'center',
-    padding:25,
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  contentbtnforget: {
-    marginTop:"2%",
-    alignSelf:'center',
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: Platform.OS === 'ios' ? 35 : 18,
-  },
-  imagelogo:{
-    display:'flex',
-    marginTop: Platform.OS === 'ios' ? "25%" : "10%",
-    alignSelf:'center'
-  },
-  contentform :{
-    marginTop: Platform.OS === 'ios' ? "15%" : "10%",
-    alignSelf:'center',
-    alignItems:'center',
-    width:'80%',
-  },
-  input:{
-    backgroundColor:'#fff',
-    marginBottom:10,
-  },
-  footer:{
-      display:'flex',
-  },
-  view:{
-      flex:0,
-      marginTop: Platform.OS === 'ios' ? "25%" : "15%",
-      alignItems:'center'
-  },
-  hairline: {
-    marginTop:Platform.OS === 'ios' ? "10%" : "7%",
-    color:"#FFF",
-    borderColor:"#FFF",
-    marginBottom: Platform.OS === 'ios' ? "7%" : "5%",
-  },
-  textregister: {
-    fontSize:15,
-    color:'#fff',
-    // marginBottom:5
-  },
-});

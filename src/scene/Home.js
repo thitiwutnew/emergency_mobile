@@ -6,6 +6,7 @@ import  Footer  from './Footer'
 import Map from '../components/Map'
 import { connect } from 'react-redux';
 import {  Foundation } from "@expo/vector-icons";
+import styles from '../styles/Main.style';
 
 class Home extends Component {
 
@@ -69,81 +70,3 @@ const mapStateToProps = (state) =>({
 })
 export default connect(mapStateToProps)(Home)
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#414c68",
-  },
-  logo: {
-    marginTop: 20,
-    height: 30
-  },
-  imageheader: {
-    height: Platform.OS === "ios" ? "100%" : 40,
-    width: Platform.OS === "ios" ? 150 : "100%"
-  },
-  footer: {
-    backgroundColor: "#f03b42",
-    color: "#fff",
-    marginTop: Platform.OS === "ios" ? -11 : -20
-  },
-
-  aletnavigation: {
-    marginVertical: 5,
-    padding: 10,
-    width: "100%",
-    height: "auto",
-    opacity: 0.95,
-    borderRadius: 15,
-    backgroundColor: "#c15252"
-  },
-  infoCol: {
-    width: "70%",
-    justifyContent: "center"
-  },
-  timeCol: {
-    width: "30%",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor:"#4285f4",
-    padding:10
-  },
-  textLarge: {
-    fontWeight: "bold",
-    color: "white",
-    fontSize: 20
-  },
-  textSmall: {
-    color: "black",
-    fontSize: 18,
-    padding: 5
-  },
-  textTitle: {
-    color: "white",
-    fontSize: 22,
-    fontWeight: "bold",
-    marginBottom: 5
-  },
-  textSubtitle: {
-    color: "white",
-    fontSize: 14
-  },
-  list: {
-    width: "100%",
-    height: "auto",
-    opacity: 0.95,
-    backgroundColor: "#c15252",
-  },
-  marginless: {
-    paddingLeft:"5%",
-    width: "100%",
-    height: 70,
-    opacity: 1.00,
-    borderRadius: 0,
-    backgroundColor: "#c15252"
-  },
-  active: {
-    backgroundColor: "#d24146"
-  },
-  
-});

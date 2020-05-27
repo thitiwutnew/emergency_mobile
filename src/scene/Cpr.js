@@ -5,6 +5,7 @@ import { createStore, applyMiddleware } from "redux";
 import { Provider, connect } from "react-redux";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import * as Animatable from 'react-native-animatable';
+import styles from '../styles/Main.style';
 // const dataArray = [
 //         { 
 //             title: "ขั้นตอนการทำ CPR", content: "1. ตรวจดูว่าผู้ป่วยหมดสติจริงหรือไม่ โดยการเรียกและตีที่ไหล่เบาๆ\n\n2. จัดท่าให้ผู้ป่วยนอนหงายราบกับพื้นแข็งและตรวจดูในปากว่ามีสิ่งแปลกปลอมอยู่หรือไม่ ถ้ามีให้นำออก\n\n"
@@ -76,7 +77,7 @@ export default class Home extends Component {
           </Body>
         </Header>
         <Content >
-            <View style={styles.container}>
+            <View style={styles.containercpr}>
                 <Animatable.View 
                     animation={zoomOut}
                     iterationCount={'infinite'}
@@ -117,100 +118,3 @@ export default class Home extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width:"100%",
-        height:300,
-        backgroundColor: "#242b38",
-        alignItems: "center",
-        justifyContent: "center",
-        position: 'relative',
-        marginTop:100,
-      },
-    containerTitle: {
-      position: 'absolute',
-      bottom: '10%',
-      padding: 50
-    },
-    containerAnimation: {
-      width:100,
-      position: 'relative',
-      marginLeft:"2%"
-    },
-    textTitle: {
-      color: 'white',
-      marginTop:100,
-      fontSize: 30,
-    },
-    textbodyTitle: {
-        color: 'black',
-        fontSize: 25,
-        marginVertical:10,
-    },
-    textbodysub: {
-        color: 'black',
-        fontSize: 16,
-        marginVertical:10,
-    },
-    center: {
-      position: 'absolute',
-    },
-    logo: {
-      marginTop: -100,
-      margin: 40,
-      height: 60,
-      width: 170,
-      alignItems: "center"
-    },
-    btnContainer: {
-      backgroundColor: "#5f6780",
-      borderRadius: 100,
-      width: 90,
-      height: 90
-    },
-    keypad: {
-      flexDirection: "row",
-    },
-    circle: {
-      borderRadius: 100,
-      width: 200,
-      height: 200,
-      backgroundColor: "#d24146",
-      borderColor: '#ba2b30',
-      borderWidth: 20,
-      marginTop: -55,
-      marginLeft: -60
-    },
-    circleBig: {
-      borderRadius: 350,
-      width: 700,
-      height: 700,
-      backgroundColor: "#3f4759",
-      borderColor: '#556078',
-      borderWidth: 50,
-      marginTop: -320,
-      marginLeft: -320
-    },
-    btnText: {
-      color: 'white',
-      fontSize: 30,
-    },
-    headertext :{
-        justifyContent:'center',
-        marginLeft:Platform.OS === 'ios' ? "-100%" : null,
-        fontSize:20,
-        color:'#fff',
-        display:'flex',
-        fontWeight:'bold',
-    },
-    header :{
-        backgroundColor:'#405273',
-        height: Platform.OS === 'ios' ? 80 : 60,
-        marginTop: Platform.OS === 'ios' ? null : 0,
-      },
-    containers: {
-        backgroundColor: "#242b38",
-      }
-  });
